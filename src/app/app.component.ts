@@ -39,8 +39,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   appRoutes = [
-    { title: 'Transaction', url: '/folder/ikan', icon: 'file-tray-full-outline' },
-    { title: 'Budget', url: '/folder/bakar', icon: 'calculator-outline' },
-    { title: 'Saving', url: '/folder/kucing', icon: 'trending-up-outline' },
+    { title: 'Transactions', url: '/folder/ikan', icon: 'file-tray-full-outline' },
+    { title: 'Budgets', url: '/folder/bakar', icon: 'calculator-outline' },
+    { title: 'Savings', url: '/folder/kucing', icon: 'trending-up-outline' },
   ];
 }

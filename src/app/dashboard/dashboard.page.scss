@@ -1,5 +1,5 @@
 .account-container {
-  background: linear-gradient(to right, #47729c, #354b6f);
+  background: #354b6f;
   color: #fff;
 }
 
@@ -11,8 +11,8 @@
 }
 
 .title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 600;
   letter-spacing: 0.5px;
   color: #fff;
 }
@@ -78,6 +78,106 @@ ion-card.account-card:hover {
   padding: 0px;
 }
 
+//transaction
+ion-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.title-row {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.transactions-list {
+  width: 100%;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 6px;
+  border-bottom: 1px solid #eee;
+}
+
+ion-avatar {
+  border-radius: 50%;
+  padding: 6px;
+  margin-right: 12px;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.income {
+    background-color: rgba(var(--ion-color-success-rgb), 0.1);
+  }
+  &.expenses {
+    background-color: rgba(var(--ion-color-danger-rgb), 0.1);
+  }
+}
+
+.transaction-icon {
+  color: #2ecc40;
+  font-size: 24px;
+  vertical-align: middle;
+
+  &.income {
+    color: var(--ion-color-success-tint);
+  }
+  &.expenses {
+    color: var(--ion-color-danger-tint);
+  }
+}
+
+.transaction-details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-desc {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+}
+
+.transaction-date {
+  font-size: 13px;
+  color: #777;
+}
+
+.transaction-amount {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.transaction-amount {
+  text-align: right;
+  &.income {
+    color: var(--ion-color-success-tint);
+  }
+  &.expenses {
+    color: var(--ion-color-danger-tint);
+  }
+}
+
+.no-transactions {
+  justify-content: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
 @media (max-width: 790px) {
   .title {
     font-size: 16px;
@@ -104,5 +204,23 @@ ion-card.account-card:hover {
     color: #2b7a78;
     text-align: center;
     padding: 0px;
+  }
+
+  .transaction-desc {
+    font-size: 15px;
+  }
+
+  .transaction-amount {
+    font-size: 15px;
+  }
+
+  ion-avatar {
+    min-width: 36px;
+    min-height: 36px;
+    padding: 4px;
+  }
+
+  .transaction-item {
+    padding: 8px 0px;
   }
 }

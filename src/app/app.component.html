@@ -4,7 +4,6 @@
       <ion-header class="ion-padding">
         <div class="logo-container ion-padding">
           <img src="assets/icon/logo.png" alt="" width="100" height="100" />
-          <ion-text class="logo-name">Spenly</ion-text>
         </div>
         <div class="user-container">
           <div>
@@ -23,9 +22,9 @@
               <ion-label>Dashboard</ion-label>
             </ion-item>
           </ion-list>
-          <ion-accordion-group [multiple]="true" [value]="['first', 'third']">
+          <ion-accordion-group [multiple]="true" [value]="['first', 'third']" class="ion-padding-top" >
             <ion-accordion value="first">
-              <ion-item slot="header" style="--background: #47729c;font-weight: 600;color: white;">
+              <ion-item slot="header" style="--background: #354b6f; font-weight: 600; color: white" >
                 <ion-label>Financial</ion-label>
               </ion-item>
               <ion-list *ngFor="let app of appRoutes" slot="content">
@@ -39,17 +38,13 @@
         </div>
       </ion-content>
       <ion-footer>
-        <ion-button expand="full" routerLink="/settings" routerDirection="root" class="ion-no-margin" style="--background: #345575;">
+        <ion-button expand="full" routerLink="/settings" routerDirection="root" class="ion-no-margin" style="--background: #345575" >
           <ion-icon slot="start" name="settings-outline"></ion-icon>
-          <div class="ion-padding" style="font-weight: bold;">
-            Settings
-          </div>
+          <div class="ion-padding" class="footer">Settings</div>
         </ion-button>
-        <ion-button expand="full" routerLink="/logout" routerDirection="root" class="ion-no-margin" style="--background: #ad2626;">
+        <ion-button expand="full" routerLink="/logout" routerDirection="root" class="ion-no-margin" style="--background: #ad2626" >
           <ion-icon slot="start" name="log-out-outline"></ion-icon>
-          <div class="ion-padding" style="font-weight: bold;">
-            Logout
-          </div>
+          <div class="ion-padding" class="footer">Logout</div>
         </ion-button>
       </ion-footer>
     </ion-menu>

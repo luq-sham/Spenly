@@ -46,9 +46,9 @@ import { HeaderComponent } from '../components/header/header.component';
 export class DashboardPage implements OnInit {
   accounts = [
     { name: 'Cash', balance: 1000, icon: 'cash-outline' },
-    { name: 'Bank', balance: 5000, icon: 'bank-outline' },
-    // { name: 'Credit Card', balance: -200, icon: 'card-outline' },
-    // { name: 'Investment', balance: 15000, icon: 'trending-up-outline' },
+    { name: 'Bank', balance: 5000, icon: 'business-outline' },
+    { name: 'Credit Card', balance: -200, icon: 'card-outline' },
+    { name: 'Investment', balance: 15000, icon: 'trending-up-outline' },
   ];
 
   transactions = [

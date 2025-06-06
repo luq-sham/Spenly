@@ -78,41 +78,31 @@ ion-card.account-card:hover {
   padding: 0px;
 }
 
-//transaction
 ion-card {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.title-row {
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
+/////////////////////////////////////////////////////////////////////////////////////
 
 .transactions-list {
   width: 100%;
 }
 
 .transaction-item {
+  --min-height: 70px;
   display: flex;
   align-items: center;
-  padding: 8px 6px;
   border-bottom: 1px solid #eee;
 }
 
 ion-avatar {
+  background-color: #bdbdbd;
   border-radius: 50%;
   padding: 6px;
   margin-right: 12px;
-  min-width: 40px;
-  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,7 +117,7 @@ ion-avatar {
 
 .transaction-icon {
   color: #2ecc40;
-  font-size: 24px;
+  font-size: 22px;
   vertical-align: middle;
 
   &.income {
@@ -152,7 +142,7 @@ ion-avatar {
 }
 
 .transaction-date {
-  font-size: 13px;
+  font-size: 12px;
   color: #777;
 }
 
@@ -178,13 +168,83 @@ ion-avatar {
   font-style: italic;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
+
+.budget-list {
+  width: 100%;
+  background: transparent;
+}
+
+.budget-item {
+  --min-height: 100px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.budget-icon {
+  font-size: 22px;
+  vertical-align: middle;
+}
+
+.budget-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+
+  .detail-top {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.budget-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.budget-amount {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.budget-percent {
+  text-align: right;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.budget-progress {
+  height: 6px;
+  border-radius: 6px;
+}
+
+.budget-date {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+.show-more {
+  font-weight: 600;
+  margin-top: 12px;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+}
+
 @media (max-width: 790px) {
   .title {
     font-size: 16px;
   }
 
   .add-account-button {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .account-icon {
@@ -207,11 +267,11 @@ ion-avatar {
   }
 
   .transaction-desc {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .transaction-amount {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   ion-avatar {
@@ -220,7 +280,21 @@ ion-avatar {
     padding: 4px;
   }
 
-  .transaction-item {
-    padding: 8px 0px;
+  /////////////////////////////////////////////////////////////////////////////////////
+
+  .budget-name {
+    font-size: 12px;
+  }
+
+  .budget-amount {
+    font-size: 12px;
+  }
+
+  .budget-percent {
+    font-size: 12px;
+  }
+
+  .budget-date {
+    font-size: 12px;
   }
 }

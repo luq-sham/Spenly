@@ -5,12 +5,7 @@
   <div class="account-container ion-padding">
     <div class="title-row">
       <ion-label class="title">Accounts List</ion-label>
-      <ion-button
-        fill="solid"
-        size="small"
-        color="light"
-        class="add-account-button"
-      >
+      <ion-button fill="solid" size="small" color="light" class="add-account-button" >
         <ion-icon name="add-circle-outline" slot="start"></ion-icon>
         Add Account
       </ion-button>
@@ -18,18 +13,13 @@
 
     <ion-grid class="ion-no-padding">
       <ion-row>
-        <ion-col
-          size="6"
-          size-sm="6"
-          size-md="2"
-          *ngFor="let account of accounts"
-        >
+        <ion-col size="6" size-sm="6" size-md="2" *ngFor="let account of accounts" >
           <ion-card class="account-card">
             <ion-card-header class="card-header">
               <ion-icon name="card" class="account-icon"></ion-icon>
-              <ion-card-title class="account-title"
-                >{{ account.name }}</ion-card-title
-              >
+              <ion-card-title class="account-title">
+                {{ account.name }}
+              </ion-card-title>
             </ion-card-header>
             <ion-card-content class="card-balance">
               <ion-label class="balance-label">
@@ -51,10 +41,12 @@
         </div>
 
         <ion-list class="transactions-list ion-no-padding">
-          <ion-item class="transaction-item" lines="none" *ngFor="let transaction of transactions">
-            <ion-avatar [class.income]="transaction.type === 'income'" [class.expenses]="transaction.type === 'expense'">
-              <ion-icon [name]="transaction.icon" class="transaction-icon" [class.income]="transaction.type === 'income'" [class.expenses]="transaction.type === 'expense'"></ion-icon>
-            </ion-avatar>
+          <ion-item class="transaction-item" lines="none" *ngFor="let transaction of transactions" button>
+            <div>
+              <ion-avatar [class.income]="transaction.type === 'income'" [class.expenses]="transaction.type === 'expense'">
+                <ion-icon [name]="transaction.icon" class="transaction-icon" [class.income]="transaction.type === 'income'" [class.expenses]="transaction.type === 'expense'"></ion-icon>
+              </ion-avatar>
+            </div>
             <div class="transaction-details">
               <div>
                 <ion-label class="transaction-desc">{{transaction.description}}</ion-label>
@@ -64,17 +56,56 @@
                 <ion-label class="transaction-amount" [class.income]="transaction.type === 'income'" [class.expenses]="transaction.type === 'expense'">
                   {{ transaction.amount | currency:'RM ':'symbol' }}
                 </ion-label>
-                <ion-label class="transaction-date">{{transaction.date | date:'MMMM d, h:mm a'}}</ion-label>
+                <ion-label class="transaction-date">{{transaction.date | date:'MMM d, h:mm a'}}</ion-label>
               </div>
             </div>
           </ion-item>
-
-          <!-- If no transactions -->
-          <!-- <ion-item class="no-transactions">
-            <ion-label>No recent transactions</ion-label>
-          </ion-item> -->
         </ion-list>
+
+        <div class="show-more">
+          <ion-label>Show More</ion-label>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>
+
+  <!-- Budget Section -->
+   <div class="budget-container">
+    <ion-card class="ion-no-padding">
+      <ion-card-content>
+        <div class="title-row">
+          <ion-label class="title" style="color:#000">Budgets</ion-label>
+        </div>
+
+        <ion-list class="budget-list">
+          <ion-item class="budget-item" lines="none" *ngFor="let budget of budgets" button>
+            <div>
+              <ion-avatar>
+                <ion-icon class="budget-icon" name="wallet" color="secondary"></ion-icon>
+              </ion-avatar>
+            </div>
+            <div class="budget-detail">
+              <div class="detail-top">
+                <ion-label class="budget-name">{{budget.budget_name | titlecase }}</ion-label>
+                <div>
+                  <ion-label class="budget-amount">{{budget.amount - budget.used | currency:'RM ' }}</ion-label>
+                  <ion-label class="budget-percent" [color]="getProgressColor('percent',(budget.used / budget.amount))">{{ (budget.used / budget.amount) | percent:'1.0-0' }}</ion-label>
+                </div>
+              </div>
+              <ion-progress-bar [value]="(budget.used / budget.amount)" class="budget-progress" [color]="getProgressColor('percent',(budget.used / budget.amount))"></ion-progress-bar>
+              <ion-label class="budget-date">
+                <ion-icon name="time-outline"></ion-icon>
+                <ion-text>{{budget.updated_at | date:'MMM d, h:mm a'}}</ion-text>
+              </ion-label>
+            </div>
+          </ion-item>
+        </ion-list>
+
+        <div class="show-more">
+          <ion-label>Show More</ion-label>
+        </div>
+      </ion-card-content>
+    </ion-card>
+   </div>
+   
 </ion-content>

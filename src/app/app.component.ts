@@ -72,4 +72,8 @@ export class AppComponent {
         this.display = !this.allowedPaths.includes(event.urlAfterRedirects);
       });
   }
+
+  logout(){
+    this.router.navigate(['/login'])
+  }
 }

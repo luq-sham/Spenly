@@ -42,7 +42,7 @@
           <ion-icon slot="start" name="settings-outline"></ion-icon>
           <div class="ion-padding" class="footer">Settings</div>
         </ion-button>
-        <ion-button expand="full" routerLink="/logout" routerDirection="root" class="ion-no-margin" color="danger" >
+        <ion-button expand="full" (click)="logout()" routerDirection="root" class="ion-no-margin" color="danger" >
           <ion-icon slot="start" name="log-out-outline"></ion-icon>
           <div class="ion-padding" class="footer">Logout</div>
         </ion-button>

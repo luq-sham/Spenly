@@ -55,7 +55,8 @@ ion-item {
   }
 }
 
-ion-input {
+ion-input,
+ion-select {
   --padding-start: 8px;
 }
 
@@ -65,14 +66,10 @@ ion-input {
   margin: 15px 10px;
 }
 
-.remember-forgot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  font-size: 14px;
+.terms-container {
+  margin: 16px 0 24px;
 
-  .forgot-password {
+  a {
     color: var(--ion-color-primary);
     text-decoration: none;
     cursor: pointer;
@@ -88,7 +85,7 @@ ion-button {
   letter-spacing: 0;
 }
 
-.signup-link {
+.login-link {
   text-align: center;
   margin-top: 24px;
 
@@ -105,7 +102,6 @@ ion-button {
   }
 }
 
-/* Animation for the card */
 ion-card {
   animation: fadeInUp 0.5s ease-out;
 }
@@ -121,9 +117,8 @@ ion-card {
   }
 }
 
-/* Responsive tweaks */
 @media (min-height: 700px) {
-  .login-container {
+  .register-container {
     justify-content: center;
   }
 }

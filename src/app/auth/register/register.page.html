@@ -1,0 +1,94 @@
+<ion-content fullscreen="true" scroll="true" forceOverscroll="true">
+  <div class="register-container">
+    <div class="logo-container">
+      <ion-img alt="Logo" class="logo" src="assets/icon/logo.png" style="width: 200px" />
+      <h1>Spenly</h1>
+      <p>Create a new account</p>
+    </div>
+
+    <div class="form-scroll">
+      <ion-grid>
+        <ion-row class="ion-display-flex ion-justify-content-center">
+          <ion-col size="12" [sizeMd]="6">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <ion-card>
+                <ion-card-content>
+                  <ion-row>
+                    <ion-col size="12" [sizeMd]="6">
+                      <ion-item>
+                        <ion-icon name="person" slot="start"></ion-icon>
+                        <ion-input type="text" formControlName="first_name" placeholder="First Name" ></ion-input>
+                      </ion-item>
+                      <app-error-message *ngFor="let val of validations.firstName" [message]="val.message" [field]="registerForm.get('first_name')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                    </ion-col>
+
+                    <ion-col size="12" [sizeMd]="6">
+                      <ion-item>
+                        <ion-icon name="person" slot="start"></ion-icon>
+                        <ion-input type="text" formControlName="last_name" placeholder="Last Name" ></ion-input>
+                      </ion-item>
+                      <app-error-message *ngFor="let val of validations.lastName" [message]="val.message" [field]="registerForm.get('last_name')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-item>
+                    <ion-icon name="mail" slot="start"></ion-icon>
+                    <ion-input type="email" formControlName="email" placeholder="your@email.com" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.email" [message]="val.message" [field]="registerForm.get('email')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+
+                  <ion-item>
+                    <ion-icon name="call" slot="start"></ion-icon>
+                    <ion-input type="tel" formControlName="phone" placeholder="Phone Number" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.phone" [message]="val.message" [field]="registerForm.get('phone')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+
+                  <ion-item>
+                    <ion-icon name="lock-closed" slot="start"></ion-icon>
+                    <ion-button fill="clear" slot="end" type="button" (click)="togglePasswordVisibility('password')">
+                      <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+                    </ion-button>
+                    <ion-input [type]="showPassword? 'text': 'password'" formControlName="password" placeholder="Password" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.password" [message]="val.message" [field]="registerForm.get('password')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+
+
+                  <ion-item>
+                    <ion-icon name="checkmark-done" slot="start"></ion-icon>
+                    <ion-button fill="clear" slot="end" type="button" (click)="togglePasswordVisibility('confirmPassword')">
+                      <ion-icon [name]="showConfirmPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+                    </ion-button>
+                    <ion-input [type]="showConfirmPassword ? 'text': 'password'" formControlName="confirmPassword" placeholder="Confirm Password" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.confirmPassword" [message]="val.message" [field]="registerForm.get('confirmPassword')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+
+
+                  <div class="terms-container">
+                    <ion-checkbox formControlName="termsAccepted" labelPlacement="end">I agree to the <a (click)="showTerms()">Terms & Conditions</a></ion-checkbox>
+                  </div>
+
+                  <ion-button expand="block" type="submit" color="primary" >
+                    <ion-icon name="person-add" slot="start"></ion-icon>
+                    Create Account
+                  </ion-button>
+                </ion-card-content>
+              </ion-card>
+            </form>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div class="login-link">
+        <p>Already have an account? <a (click)="goToLogin()">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title size="small" class="ion-text-center">
+      © 2025 Spenly - All rights reserved
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  NavigationEnd,
+} from '@angular/router';
 import {
   IonApp,
   IonSplitPane,
@@ -12,14 +17,24 @@ import {
   IonAvatar,
   IonItem,
   IonIcon,
-  IonLabel, IonAccordion, IonAccordionGroup, IonFooter, IonButton } from '@ionic/angular/standalone';
+  IonLabel,
+  IonAccordion,
+  IonAccordionGroup,
+  IonFooter,
+  IonButton,
+} from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [IonButton, IonFooter, IonAccordionGroup, IonAccordion, 
+  imports: [
+    IonButton,
+    IonFooter,
+    IonAccordionGroup,
+    IonAccordion,
     IonLabel,
     IonIcon,
     IonItem,
@@ -43,4 +58,18 @@ export class AppComponent {
     { title: 'Budget', url: '/folder/bakar', icon: 'calculator-outline' },
     { title: 'Saving', url: '/folder/kucing', icon: 'trending-up-outline' },
   ];
+
+  display:any;
+  allowedPaths = ['/login', '/register']
+  constructor(
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.display = !this.allowedPaths.includes(event.urlAfterRedirects);
+      });
+  }
 }

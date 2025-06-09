@@ -1,13 +1,62 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" scroll="true">
+  <div class="login-container">
+    <div class="logo-container">
+      <img alt="Logo" class="logo" src="assets/icon/logo.png" style="width: 200px;"/>
+      <h1>My Expenses</h1>
+      <p>Sign in to continue to your account</p>
+    </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">login</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div class="form-scroll">
+      <ion-grid>
+        <ion-row class="ion-display-flex ion-justify-content-center">
+          <ion-col size="12" [sizeMd]="6">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <ion-card>
+                <ion-card-content>
+                  <ion-item>
+                    <ion-icon name="mail" slot="start"></ion-icon>
+                    <ion-input type="email" formControlName="email" placeholder="your@email.com" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.email" [message]="val.message" [error]="val.error" [field]="loginForm.get('email')!" [submitted]="isSubmitted"></app-error-message>
+                  
+
+                  <ion-item>
+                    <ion-icon name="lock-closed" slot="start"></ion-icon>
+                    <ion-button fill="clear" slot="end" type="button" (click)="togglePasswordVisibility()">
+                      <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+                    </ion-button>
+                    <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="******" ></ion-input>
+                  </ion-item>
+                  <app-error-message *ngFor="let val of validations.password" [message]="val.message" [error]="val.error" [field]="loginForm.get('password')!" [submitted]="isSubmitted"></app-error-message>
+
+
+                  <div class="remember-forgot">
+                    <ion-checkbox formControlName="rememberMe" labelPlacement="end" >Remember me</ion-checkbox >
+                    <a class="forgot-password" (click)="forgotPassword()">Forgot Password?</a>
+                  </div>
+
+                  <ion-button expand="block" type="submit" color="primary" >
+                    <ion-icon name="log-in-outline" slot="start"></ion-icon>
+                    Sign In
+                  </ion-button>
+                </ion-card-content>
+              </ion-card>
+            </form>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div class="signup-link">
+        <p>Don't have an account? <a (click)="goToSignup()">Sign Up</a></p>
+      </div>
+    </div>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title size="small" class="ion-text-center">
+      © 2025 My Expenses - All rights reserved
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

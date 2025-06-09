@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "short_name": "app",
+  "name": "Spently",
+  "short_name": "Splenly",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

@@ -29,6 +29,9 @@ import { ErrorMessageComponent } from 'src/app/components/error-message/error-me
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -61,7 +64,7 @@ export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-  isSubmmited: boolean = false;
+  isSubmitted: boolean = false;
 
   validations: any = this.validation.formValidation('register');
 
@@ -70,7 +73,10 @@ export class RegisterPage implements OnInit {
     private fb: FormBuilder,
     private validation: ValidateMessageService,
     private alert: AlertService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService,
+    private toast: ToastService,
+    private loading: LoadingService,
   ) {}
 
   ngOnInit() {
@@ -108,8 +114,22 @@ export class RegisterPage implements OnInit {
   }
 
   onSubmit() {
-    this.isSubmmited = true;
+    this.isSubmitted = true;
     if (this.registerForm.valid) {
+      const email: string = this.registerForm.get('email')?.value || '';
+      const password: string = this.registerForm.get('password')?.value || '';
+
+      this.loading.customLoading()
+      this.auth.signup(email, password).then((res) => {
+        this.loading.dismiss()
+        this.router.navigate(['/login']);
+        this.toast.customToast('User Successfully Registered.',2000,'success')
+      })
+      .catch((error) => {
+        this.loading.dismiss()
+        console.error('Signup failed:', error.message);
+        this.toast.customToast(error.message,2000,'warning')
+      });
       console.log('Form submitted:', this.registerForm.value);
     } else {
       console.log('Invalid Register Form');
@@ -136,7 +156,7 @@ export class RegisterPage implements OnInit {
     );
   }
 
-  goToLogin(){
-    this.router.navigate(['/login'])
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 }

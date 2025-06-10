@@ -26,6 +26,8 @@ import {
 import { Router } from '@angular/router';
 import { ErrorMessageComponent } from 'src/app/components/error-message/error-message.component';
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -63,7 +65,9 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private validate: ValidateMessageService
+    private validate: ValidateMessageService,
+    private auth: AuthService,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -80,8 +84,24 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     this.isSubmitted = true;
+
     if (this.loginForm.valid) {
-      console.log('Login Form', this.loginForm.value);
+      const email = this.loginForm.get('email')?.value;
+      const password = this.loginForm.get('password')?.value;
+
+      console.log('Login Form:', this.loginForm.value);
+
+      this.auth
+        .login(email, password)
+        .then((userCredential) => {
+          console.log('Logged in:', userCredential.user);
+          this.router.navigate(['/dashboard']); // or your desired route
+          this.toast.customToast('User Successfully Login', 2000, 'success');
+        })
+        .catch((error) => {
+          console.error('Login failed:', error.message);
+          this.toast.customToast(error.message, 2000, 'warning');
+        });
     } else {
       console.log('Login Form Invalid');
     }

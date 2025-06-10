@@ -1,17 +1,56 @@
-import { Injectable, inject  } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, getIdToken, signOut } from '@angular/fire/auth';
-
+import { Injectable, inject } from '@angular/core';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, getIdToken, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { ToastService } from './toast.service';
+import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private auth = inject(Auth);
-  constructor() { }
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
+
+  constructor(
+    private router: Router,
+    private toast: ToastService,
+    private api: ApiService
+  ) {
+    onAuthStateChanged(this.auth, (user) => {
+      this.userSubject.next(user);
+
+      if (!user) {
+        localStorage.clear();
+        this.toast.customToast('Session expired. Please log in again.',3000,'warning');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 
   login(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password);
+    return signInWithEmailAndPassword(this.auth, email, password)
+      .then((userCredential) => {
+        return userCredential.user.getIdToken().then((token) => {
+          let param = {
+            email: email
+          }
+          this.api.postLogin(param).subscribe(res=>{
+            localStorage.setItem('token', JSON.stringify({ token }));
+            localStorage.setItem('userData', JSON.stringify(res.return_data));
+            this.router.navigate(['/dashboard']);
+          })
+        });
+      })
+      .catch((error) => {
+        if (error.code == 'auth/invalid-credential') {
+          this.toast.customToast('Login failed: Invalid credencial. Please try again.',3000,'warning');
+        } else {
+          this.toast.customToast('Login failed: ' + error.message,3000,'warning');
+          throw error; // Rethrow if needed
+        }
+      });
   }
 
   signup(email: string, password: string) {

@@ -1,82 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  IonContent,
-  IonTitle,
-  IonToolbar,
-  IonRow,
-  IonGrid,
-  IonCol,
-  IonCard,
-  IonCardContent,
-  IonItem,
-  IonIcon,
-  IonFooter,
-  IonInput,
-  IonButton,
-  IonCheckbox,
-} from '@ionic/angular/standalone';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonContent, IonTitle, IonToolbar, IonRow, IonGrid, IonCol, IonCard, IonCardContent, IonItem, IonIcon, IonFooter, IonInput, IonButton, IonCheckbox } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+
 import { ErrorMessageComponent } from 'src/app/components/error-message/error-message.component';
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [
-    IonButton,
-    IonFooter,
-    IonIcon,
-    IonItem,
-    IonCardContent,
-    IonCard,
-    IonCol,
-    IonGrid,
-    IonRow,
-    IonContent,
-    IonTitle,
-    IonInput,
-    IonCheckbox,
-    IonToolbar,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ErrorMessageComponent,
-  ],
+  imports: [ CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonFooter, IonIcon, IonItem, IonCardContent, IonCard, IonCol, IonGrid, IonRow, IonContent, IonTitle, IonInput, IonCheckbox, IonToolbar, ErrorMessageComponent, ],
 })
 export class LoginPage implements OnInit {
-  loginForm!: FormGroup;
-  showPassword: boolean = false;
-  isSubmitted: boolean = false;
-
-  validations: any = this.validate.formValidation('login');
+  public loginForm!: FormGroup;
+  public showPassword = false;
+  public isSubmitted = false;
+  public validations: any;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private validate: ValidateMessageService,
-    private auth: AuthService,
-    private toast: ToastService,
-    private loading: LoadingService
-  ) {}
-
-  ngOnInit() {
-    this.buildForm();
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly validate: ValidateMessageService,
+    private readonly auth: AuthService,
+    private readonly toast: ToastService,
+    private readonly loading: LoadingService,
+    private readonly api: ApiService
+  ) {
+    this.validations = this.validate.formValidation('login');
   }
 
-  buildForm() {
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -84,45 +48,29 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     this.isSubmitted = true;
 
-    if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
-
-      console.log('Login Form:', this.loginForm.value);
-
-      this.loading.customLoading();
-      this.auth
-        .login(email, password)
-        .then((userCredential) => {
-          this.loading.dismiss();
-          console.log('Logged in:', userCredential.user);
-          this.router.navigate(['/dashboard']); // or your desired route
-          this.toast.customToast('User Successfully Login', 2000, 'success');
-        })
-        .catch((error) => {
-          this.loading.dismiss();
-          console.error('Login failed:', error.message);
-          this.toast.customToast(
-            'Authentication failed. Please check your credentials and try again.',
-            2000,
-            'warning'
-          );
-        });
-    } else {
-      console.log('Login Form Invalid');
+    if (this.loginForm.invalid) {
+      console.warn('Login Form is invalid');
+      return;
     }
+
+    const { email, password } = this.loginForm.value;
+    this.loading.customLoading();
+
+    this.auth.login(email, password)
   }
 
-  togglePasswordVisibility() {
+  public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  forgotPassword() {}
+  public forgotPassword(): void {
+    // TODO: Implement forgot password logic or navigation
+  }
 
-  goToSignup() {
+  public goToSignup(): void {
     this.router.navigate(['/register']);
   }
 }

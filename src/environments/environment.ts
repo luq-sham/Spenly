@@ -8,4 +8,5 @@ export const environment = {
     messagingSenderId: '313719504056',
     appId: '1:313719504056:web:1916f1e1544869dfa4484d',
   },
+  url:'http://127.0.0.1:8000',
 };

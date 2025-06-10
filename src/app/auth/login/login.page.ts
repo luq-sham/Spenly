@@ -28,6 +28,7 @@ import { ErrorMessageComponent } from 'src/app/components/error-message/error-me
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -67,7 +68,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private validate: ValidateMessageService,
     private auth: AuthService,
-    private toast: ToastService
+    private toast: ToastService,
+    private loading: LoadingService
   ) {}
 
   ngOnInit() {
@@ -91,16 +93,23 @@ export class LoginPage implements OnInit {
 
       console.log('Login Form:', this.loginForm.value);
 
+      this.loading.customLoading();
       this.auth
         .login(email, password)
         .then((userCredential) => {
+          this.loading.dismiss();
           console.log('Logged in:', userCredential.user);
           this.router.navigate(['/dashboard']); // or your desired route
           this.toast.customToast('User Successfully Login', 2000, 'success');
         })
         .catch((error) => {
+          this.loading.dismiss();
           console.error('Login failed:', error.message);
-          this.toast.customToast(error.message, 2000, 'warning');
+          this.toast.customToast(
+            'Authentication failed. Please check your credentials and try again.',
+            2000,
+            'warning'
+          );
         });
     } else {
       console.log('Login Form Invalid');

@@ -76,7 +76,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private auth: AuthService,
     private toast: ToastService,
-    private loading: LoadingService,
+    private loading: LoadingService
   ) {}
 
   ngOnInit() {
@@ -86,15 +86,47 @@ export class RegisterPage implements OnInit {
   buildForm() {
     this.registerForm = this.fb.group(
       {
-        first_name: ['', Validators.required],
-        last_name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
+        first_name: [
+          '',
+          [Validators.required, Validators.pattern(/^[a-zA-Z\s'-]+$/)],
+        ],
+        last_name: [
+          '',
+          [Validators.required, Validators.pattern(/^[a-zA-Z\s'-]+$/)],
+        ],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email,
+            Validators.pattern(
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+            ),
+          ],
+        ],
         phone: [
           '',
-          [Validators.required, Validators.pattern(/^\+?[0-9]{10,15}$/)],
+          [Validators.required, Validators.pattern(/^01[0-46-9]-?\d{7,8}$/)],
         ],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(100),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            ),
+          ],
+        ],
+        confirmPassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(100),
+          ],
+        ],
         termsAccepted: [false, Validators.requiredTrue],
       },
       { validators: this.passwordMatchValidator }
@@ -119,18 +151,37 @@ export class RegisterPage implements OnInit {
       const email: string = this.registerForm.get('email')?.value || '';
       const password: string = this.registerForm.get('password')?.value || '';
 
-      this.loading.customLoading()
-      this.auth.signup(email, password).then((res) => {
-        this.loading.dismiss()
-        this.router.navigate(['/login']);
-        this.toast.customToast('User Successfully Registered.',2000,'success')
-      })
-      .catch((error) => {
-        this.loading.dismiss()
-        console.error('Signup failed:', error.message);
-        this.toast.customToast(error.message,2000,'warning')
-      });
+      this.loading.customLoading();
+      this.auth
+        .signup(email, password)
+        .then((res) => {
+          this.loading.dismiss();
+          this.router.navigate(['/login']);
+          this.toast.customToast(
+            'User Successfully Registered.',
+            2000,
+            'success'
+          );
+        })
+        .catch((error) => {
+          if (error.code == 'auth/email-already-in-use') {
+            this.loading.dismiss();
+            console.error('Signup failed:', error.message);
+            this.toast.customToast(
+              'Email already in use. Please use a different email.',
+              2000,
+              'warning'
+            );
+          } else {
+            this.toast.customToast(error.message, 2000, 'warning');
+          }
+        });
       console.log('Form submitted:', this.registerForm.value);
+    } else if (this.registerForm.get('termsAccepted')?.invalid) {
+      this.alert.customAlertOK(
+        'Terms & Conditions',
+        'Please accept terms and conditions'
+      );
     } else {
       console.log('Invalid Register Form');
     }

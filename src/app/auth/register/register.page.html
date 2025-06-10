@@ -39,7 +39,7 @@
 
                   <ion-item>
                     <ion-icon name="call" slot="start"></ion-icon>
-                    <ion-input type="tel" formControlName="phone" placeholder="Phone Number" ></ion-input>
+                    <ion-input type="tel" formControlName="phone" placeholder="Phone Number e.g., 01234567890" ></ion-input>
                   </ion-item>
                   <app-error-message *ngFor="let val of validations.phone" [message]="val.message" [field]="registerForm.get('phone')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
 

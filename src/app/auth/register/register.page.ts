@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ApiService } from 'src/app/services/api.service';
+import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +37,8 @@ export class RegisterPage implements OnInit {
     private readonly auth: AuthService,
     private readonly toast: ToastService,
     private readonly loading: LoadingService,
-    private readonly api: ApiService
+    private readonly api: ApiService,
+    private readonly crypt: EncryptionService
   ) {
     this.validations = this.validationService.formValidation('register');
   }
@@ -52,7 +54,7 @@ export class RegisterPage implements OnInit {
         last_name: ['',[Validators.required, Validators.pattern(/^[a-zA-Z\s'-]+$/)],],
         email: ['',[Validators.required,Validators.email,Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),],],
         phone: ['',[Validators.required, Validators.pattern(/^01[0-46-9]-?\d{7,8}$/)],],
-        password: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(100),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/),],],
+        password: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(100),Validators.pattern(/^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/),],],
         confirmPassword: ['',[Validators.required,Validators.minLength(8),Validators.maxLength(100),],],
         termsAccepted: [false, Validators.requiredTrue],
       },
@@ -87,10 +89,11 @@ export class RegisterPage implements OnInit {
 
     try {
       this.loading.customLoading();
-      await this.auth.signup(email, password);
+      await this.auth.signup(email, this.crypt.encrypt(password));
 
       this.api.postRegister(param).subscribe({
         next: () => {
+          this.registerForm.reset()
           this.loading.dismiss();
           this.toast.customToast('User Successfully Registered.',2000,'success');
           this.router.navigate(['/login']);

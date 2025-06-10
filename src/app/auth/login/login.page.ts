@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ApiService } from 'src/app/services/api.service';
+import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginPage implements OnInit {
     private readonly auth: AuthService,
     private readonly toast: ToastService,
     private readonly loading: LoadingService,
-    private readonly api: ApiService
+    private readonly api: ApiService,
+    private readonly crypt: EncryptionService
   ) {
     this.validations = this.validate.formValidation('login');
   }
@@ -59,7 +61,7 @@ export class LoginPage implements OnInit {
     const { email, password } = this.loginForm.value;
     this.loading.customLoading();
 
-    this.auth.login(email, password)
+    this.auth.login(email, this.crypt.encrypt(password))
   }
 
   public togglePasswordVisibility(): void {

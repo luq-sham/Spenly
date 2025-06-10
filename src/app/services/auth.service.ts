@@ -23,8 +23,6 @@ export class AuthService {
 
       if (!user) {
         localStorage.clear();
-        this.toast.customToast('Session expired. Please log in again.',3000,'warning');
-        this.router.navigate(['/login']);
       }
     });
   }

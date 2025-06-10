@@ -35,7 +35,7 @@ export class ValidateMessageService {
             {label: 'Password', error: 'required', message: 'Password is required.'},
             {label: 'Password', error: 'minlength', message: 'Password must be at least 8 characters.'},
             {label: 'Password', error: 'maxlength', message: 'Password cannot exceed 100 characters.'},
-            {label: 'Password', error: 'pattern', message: 'Password must contain uppercase, lowercase, number, and special character.'},
+            {label: 'Password', error: 'pattern', message: 'Password must contain number, and special character.'},
           ],
           confirmPassword:[
             {label: 'Confirm Password', error: 'required', message: 'Please confirm your password.'},

@@ -19,7 +19,7 @@
                         <ion-icon name="person" slot="start"></ion-icon>
                         <ion-input type="text" formControlName="first_name" placeholder="First Name" ></ion-input>
                       </ion-item>
-                      <app-error-message *ngFor="let val of validations.firstName" [message]="val.message" [field]="registerForm.get('first_name')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                      <app-error-message *ngFor="let val of validations.firstName" [message]="val.message" [field]="registerForm.get('first_name')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
                     </ion-col>
 
                     <ion-col size="12" [sizeMd]="6">
@@ -27,7 +27,7 @@
                         <ion-icon name="person" slot="start"></ion-icon>
                         <ion-input type="text" formControlName="last_name" placeholder="Last Name" ></ion-input>
                       </ion-item>
-                      <app-error-message *ngFor="let val of validations.lastName" [message]="val.message" [field]="registerForm.get('last_name')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                      <app-error-message *ngFor="let val of validations.lastName" [message]="val.message" [field]="registerForm.get('last_name')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
                     </ion-col>
                   </ion-row>
 
@@ -35,13 +35,13 @@
                     <ion-icon name="mail" slot="start"></ion-icon>
                     <ion-input type="email" formControlName="email" placeholder="your@email.com" ></ion-input>
                   </ion-item>
-                  <app-error-message *ngFor="let val of validations.email" [message]="val.message" [field]="registerForm.get('email')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                  <app-error-message *ngFor="let val of validations.email" [message]="val.message" [field]="registerForm.get('email')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
 
                   <ion-item>
                     <ion-icon name="call" slot="start"></ion-icon>
                     <ion-input type="tel" formControlName="phone" placeholder="Phone Number" ></ion-input>
                   </ion-item>
-                  <app-error-message *ngFor="let val of validations.phone" [message]="val.message" [field]="registerForm.get('phone')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                  <app-error-message *ngFor="let val of validations.phone" [message]="val.message" [field]="registerForm.get('phone')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
 
                   <ion-item>
                     <ion-icon name="lock-closed" slot="start"></ion-icon>
@@ -50,7 +50,7 @@
                     </ion-button>
                     <ion-input [type]="showPassword? 'text': 'password'" formControlName="password" placeholder="Password" ></ion-input>
                   </ion-item>
-                  <app-error-message *ngFor="let val of validations.password" [message]="val.message" [field]="registerForm.get('password')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                  <app-error-message *ngFor="let val of validations.password" [message]="val.message" [field]="registerForm.get('password')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
 
 
                   <ion-item>
@@ -60,7 +60,7 @@
                     </ion-button>
                     <ion-input [type]="showConfirmPassword ? 'text': 'password'" formControlName="confirmPassword" placeholder="Confirm Password" ></ion-input>
                   </ion-item>
-                  <app-error-message *ngFor="let val of validations.confirmPassword" [message]="val.message" [field]="registerForm.get('confirmPassword')!" [error]="val.error" [submitted]="isSubmmited"></app-error-message>
+                  <app-error-message *ngFor="let val of validations.confirmPassword" [message]="val.message" [field]="registerForm.get('confirmPassword')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
 
 
                   <div class="terms-container">

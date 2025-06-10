@@ -25,6 +25,8 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { AlertService } from './services/alert.service';
+import { ToastService } from './services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -62,7 +64,9 @@ export class AppComponent {
   display:any;
   allowedPaths = ['/login', '/register']
   constructor(
-    private router: Router
+    private router: Router,
+    private alert: AlertService,
+    private toast: ToastService,
   ) {}
 
   ngOnInit() {
@@ -74,6 +78,11 @@ export class AppComponent {
   }
 
   logout(){
-    this.router.navigate(['/login'])
+    this.alert.customComfirmationAlert('Logout','Are you sure to logout this session?','Logout','Cancel').then(response=>{
+      if(response == 'confirm'){
+        this.toast.customToast('User Successful Logout', 2000, 'warning')
+        this.router.navigate(['/login'])
+      }
+    })
   }
 }

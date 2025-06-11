@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AlertService } from './services/alert.service';
 import { ToastService } from './services/toast.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent {
   constructor(
     private router: Router,
     private alert: AlertService,
-    private toast: ToastService
+    private toast: ToastService,
+    private auth: AuthService,
   ) {}
 
   ngOnInit() {
@@ -36,14 +38,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.alert
-      .customComfirmationAlert('Logout','Are you sure to logout this session?','Logout','Cancel')
-      .then((response) => {
-        if (response == 'confirm') {
-          localStorage.clear();
-          this.toast.customToast('User Successful Logout', 2000, 'warning');
-          this.router.navigate(['/login']);
-        }
-      });
+    this.auth.logout()
   }
 }

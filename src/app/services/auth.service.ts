@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, getIdToken, signOut, User, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ToastService } from './toast.service';
 import { ApiService } from './api.service';
+import { AlertService } from './alert.service';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,29 +18,23 @@ export class AuthService {
   constructor(
     private router: Router,
     private toast: ToastService,
-    private api: ApiService
-  ) {
-    onAuthStateChanged(this.auth, (user) => {
-      this.userSubject.next(user);
-
-      if (!user) {
-        localStorage.clear();
-      }
-    });
-  }
+    private api: ApiService,
+    private alert: AlertService,
+    private loading: LoadingService
+  ) {}
 
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         return userCredential.user.getIdToken().then((token) => {
           let param = {
-            email: email
-          }
-          this.api.postLogin(param).subscribe(res=>{
+            email: email,
+          };
+          this.api.postLogin(param).subscribe((res) => {
             localStorage.setItem('token', JSON.stringify({ token }));
             localStorage.setItem('userData', JSON.stringify(res.return_data));
             this.router.navigate(['/dashboard']);
-          })
+          });
         });
       })
       .catch((error) => {
@@ -51,12 +47,47 @@ export class AuthService {
       });
   }
 
-  signup(email: string, password: string) {
+  signup(email: string, password: string, param:any) {
+    try {
+      this.loading.customLoading();
+      this.api.postRegister(param).subscribe({
+        next: () => {
+          this.loading.dismiss();
+          this.toast.customToast('User Successfully Registered.',2000,'success');
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          this.loading.dismiss();
+          this.toast.customToast('Server error during registration.',2000,'danger');
+          console.error('API registration failed:', err);
+        },
+      });
+    } catch (error: any) {
+      this.loading.dismiss();
+
+      if (error.code === 'auth/email-already-in-use') {
+        this.toast.customToast('Email already in use. Please use a different email.',2000,'warning');
+      } else {
+        this.toast.customToast(error.message || 'Registration failed.',2000,'warning');
+      }
+      console.error('Signup failed:', error);
+    }
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
   logout() {
-    return signOut(this.auth);
+    this.alert.customComfirmationAlert('Logout', 'Are you sure to logout this session?', 'Logout', 'Cancel').then(async (response) => {
+      if (response === 'confirm') {
+        try {
+          await signOut(this.auth);
+          localStorage.clear();
+          this.toast.customToast('User Successfully Logged Out', 2000, 'warning');
+          this.router.navigate(['/login']);
+        } catch (error) {
+          this.toast.customToast('Logout failed: ' + (error as Error).message, 3000, 'warning');
+        }
+      }
+    });
   }
 
   async getIdToken() {

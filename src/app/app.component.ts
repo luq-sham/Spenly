@@ -3,8 +3,6 @@ import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/ro
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonRouterOutlet, IonHeader, IonText, IonAvatar, IonItem, IonIcon, IonLabel, IonAccordion, IonAccordionGroup, IonFooter, IonButton, IonImg } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
-import { AlertService } from './services/alert.service';
-import { ToastService } from './services/toast.service';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -24,8 +22,6 @@ export class AppComponent {
   allowedPaths = ['/login', '/register'];
   constructor(
     private router: Router,
-    private alert: AlertService,
-    private toast: ToastService,
     private auth: AuthService,
   ) {}
 

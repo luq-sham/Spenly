@@ -9,9 +9,6 @@ import { ErrorMessageComponent } from 'src/app/components/error-message/error-me
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastService } from 'src/app/services/toast.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { ApiService } from 'src/app/services/api.service';
 import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
@@ -35,9 +32,6 @@ export class RegisterPage implements OnInit {
     private readonly alert: AlertService,
     private readonly router: Router,
     private readonly auth: AuthService,
-    private readonly toast: ToastService,
-    private readonly loading: LoadingService,
-    private readonly api: ApiService,
     private readonly crypt: EncryptionService
   ) {
     this.validations = this.validationService.formValidation('register');

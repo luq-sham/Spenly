@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
-import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonRouterOutlet, IonHeader, IonText, IonAvatar, IonItem, IonIcon, IonLabel, IonAccordion, IonAccordionGroup, IonFooter, IonButton } from '@ionic/angular/standalone';
+import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonRouterOutlet, IonHeader, IonText, IonAvatar, IonItem, IonIcon, IonLabel, IonAccordion, IonAccordionGroup, IonFooter, IonButton, IonImg } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { AlertService } from './services/alert.service';
@@ -10,7 +10,7 @@ import { ToastService } from './services/toast.service';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  imports: [ IonButton, IonFooter, IonAccordionGroup, IonAccordion, IonLabel, IonIcon, IonItem, IonAvatar, IonText, IonHeader, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonRouterOutlet, RouterLink, RouterLinkActive, CommonModule, ],
+  imports: [IonImg,  IonButton, IonFooter, IonAccordionGroup, IonAccordion, IonLabel, IonIcon, IonItem, IonAvatar, IonText, IonHeader, IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonRouterOutlet, RouterLink, RouterLinkActive, CommonModule, ],
 })
 export class AppComponent {
   appRoutes = [

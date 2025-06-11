@@ -1,40 +1,89 @@
-import { Injectable, inject, OnDestroy } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Injectable, inject, OnDestroy, ApplicationRef } from '@angular/core';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 import { ApiService } from './api.service';
 import { AlertService } from './alert.service';
 import { LoadingService } from './loading.service';
+import { Capacitor } from '@capacitor/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
   private readonly tokenRefreshInterval = 5 * 60 * 1000; // 5 minutes for token refresh
-  private readonly inactivityTimeout = 60 * 60 * 1000; // 1 hour in milliseconds (fixed from 5 seconds)
+  private readonly inactivityTimeout = 60 * 60 * 1000; // 1 hour in milliseconds
+  private readonly sessionExpiryKey = 'sessionExpiry';
   private auth = inject(Auth);
   private timeoutId: any;
   private tokenRefreshId: any;
   private activityListenersBound = false;
+  private lastActivityTime: number | null = null;
 
   constructor(
     private router: Router,
     private toast: ToastService,
     private api: ApiService,
     private alert: AlertService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private appRef: ApplicationRef,
+    private platform: Platform
   ) {
-    if (window.innerWidth > 768) {
-      // Only initialize session management on desktop (not phone/tablet)
-      this.initializeSessionManagement();
-    }
+    this.initializeSessionManagement();
+    this.setupAppStateListeners();
   }
 
   private initializeSessionManagement() {
-    if (this.hasToken()) {
-      this.setupActivityListeners();
-      this.startTokenRefresh();
-      this.resetInactivityTimer();
+    if (Capacitor.getPlatform() === 'web') {
+      if (this.hasToken()) {
+        this.checkSessionExpiry();
+        this.setupActivityListeners();
+        this.startTokenRefresh();
+        this.resetInactivityTimer();
+      }
+    }
+  }
+
+  private setupAppStateListeners() {
+    // Listen for app becoming active
+    this.platform.resume.subscribe(() => {
+      if (this.hasToken()) {
+        this.checkSessionExpiry();
+      }
+    });
+
+    // Save last activity time when app is paused
+    this.platform.pause.subscribe(() => {
+      if (this.hasToken()) {
+        this.lastActivityTime = Date.now();
+      }
+    });
+  }
+
+  private checkSessionExpiry() {
+    const expiryTime = localStorage.getItem(this.sessionExpiryKey);
+    if (expiryTime) {
+      const now = Date.now();
+      if (now > parseInt(expiryTime)) {
+        this.alert
+          .customAlertOK(
+            'Session Expired',
+            'Your session has expired due to inactivity. Please log in again.',
+          )
+          .then((res) => {
+            if(res == 'confirm'){
+              this.performLogout();
+            }
+          });
+      } else {
+        // Update expiry time based on last activity
+        if (this.lastActivityTime) {
+          const newExpiryTime = this.lastActivityTime + this.inactivityTimeout;
+          localStorage.setItem(this.sessionExpiryKey, newExpiryTime.toString());
+          this.resetInactivityTimer();
+        }
+      }
     }
   }
 
@@ -45,8 +94,14 @@ export class AuthService implements OnDestroy {
   private setupActivityListeners() {
     if (this.activityListenersBound) return;
 
-    // Use arrow functions to maintain proper 'this' context
-    const resetTimer = () => this.resetInactivityTimer();
+    const resetTimer = () => {
+      this.lastActivityTime = Date.now();
+      localStorage.setItem(
+        this.sessionExpiryKey,
+        (Date.now() + this.inactivityTimeout).toString()
+      );
+      this.resetInactivityTimer();
+    };
 
     window.addEventListener('mousemove', resetTimer);
     window.addEventListener('keypress', resetTimer);
@@ -76,6 +131,12 @@ export class AuthService implements OnDestroy {
     this.timeoutId = setTimeout(() => {
       this.handleInactiveTimeout();
     }, this.inactivityTimeout);
+
+    // Update session expiry in storage
+    localStorage.setItem(
+      this.sessionExpiryKey,
+      (Date.now() + this.inactivityTimeout).toString()
+    );
   }
 
   private async handleInactiveTimeout() {
@@ -94,7 +155,7 @@ export class AuthService implements OnDestroy {
   }
 
   private startTokenRefresh() {
-    this.stopTokenRefresh(); // Clear any existing interval
+    this.stopTokenRefresh();
     this.tokenRefreshId = setInterval(async () => {
       if (this.auth.currentUser) {
         try {
@@ -128,6 +189,12 @@ export class AuthService implements OnDestroy {
         next: (res) => {
           localStorage.setItem('token', JSON.stringify({ token }));
           localStorage.setItem('userData', JSON.stringify(res.return_data));
+          // Set initial session expiry
+          localStorage.setItem(
+            this.sessionExpiryKey,
+            (Date.now() + this.inactivityTimeout).toString()
+          );
+
           this.initializeSessionManagement();
           this.router.navigate(['/dashboard']);
           this.toast.customToast(
@@ -195,10 +262,13 @@ export class AuthService implements OnDestroy {
   }
 
   private cleanupSession(): void {
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
+    localStorage.removeItem(this.sessionExpiryKey);
     clearTimeout(this.timeoutId);
     this.stopTokenRefresh();
     this.removeActivityListeners();
+    this.lastActivityTime = null;
   }
 
   async getIdToken(): Promise<string | null> {

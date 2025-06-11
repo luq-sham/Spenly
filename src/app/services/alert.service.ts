@@ -20,7 +20,8 @@ export class AlertService {
     });
 
     await alert.present();
-    return alert;
+    const { role } = await alert.onDidDismiss();
+    return role;
   }
 
   async customComfirmationAlert( header: string, msg: string, confirmMsg?: string, cancleMsg?: string, css?: string ) {

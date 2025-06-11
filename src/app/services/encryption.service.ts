@@ -6,12 +6,10 @@ import * as CryptoJS from 'crypto-js';
 })
 export class EncryptionService {
 
-  private secretKey = 'Spendly@pass';
-
   constructor() { }
 
   encrypt(value: string): string {
-    const secretKey = 'myExpenses';
+    const secretKey = 'Spendly@pass';
     const hashedKey = CryptoJS.enc.Hex.parse(
       CryptoJS.SHA256(secretKey).toString()
     );
@@ -24,8 +22,16 @@ export class EncryptionService {
     return encrypted.toString();
   }
 
-  decrypt(cipherText: string): string {
-    const bytes = CryptoJS.AES.decrypt(cipherText, this.secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
+  decrypt(value: string): string {
+    const secretKey = 'Spendly@pass';
+    const hashedKey = CryptoJS.enc.Hex.parse(
+      CryptoJS.SHA256(secretKey).toString()
+    );
+
+    const decrypt = CryptoJS.AES.decrypt(value, hashedKey, {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return decrypt.toString(CryptoJS.enc.Utf8);
   }
 }

@@ -13,22 +13,32 @@
 
     <ion-grid class="ion-no-padding">
       <ion-row>
-        <ng-container *ngIf=" !accountLoading; else accountsSkeleton">
-          <ion-col size="6" size-sm="6" size-md="2" *ngFor="let account of accounts" >
-            <ion-card class="account-card" button>
-              <ion-card-header class="card-header">
-                <ion-icon [name]="account.icon" class="account-icon"></ion-icon>
-                <ion-card-title class="account-title">
-                  {{ account.account_name }}
-                </ion-card-title>
-              </ion-card-header>
-              <ion-card-content class="card-balance">
-                <ion-label class="balance-label">
-                  {{ account.currentBalance | currency: 'RM ': 'symbol' }}
-                </ion-label>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
+        <ng-container *ngIf="!accountLoading; else accountsSkeleton">
+          <ng-container *ngIf="accounts && accounts.length > 0; else noAccounts">
+            <ion-col size="6" size-sm="6" size-md="2" *ngFor="let account of accounts">
+              <ion-card class="account-card" button>
+                <ion-card-header class="card-header">
+                  <ion-icon [name]="account.icon" class="account-icon"></ion-icon>
+                  <ion-card-title class="account-title">
+                    {{ account.account_name }}
+                  </ion-card-title>
+                </ion-card-header>
+                <ion-card-content class="card-balance">
+                  <ion-label class="balance-label">
+                    {{ account.currentBalance | currency: 'RM ': 'symbol' }}
+                  </ion-label>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ng-container>
+
+          <ng-template #noAccounts>
+            <ion-col size="12">
+              <ion-text color="medium">
+                <p style="text-align:center; margin-top: 2rem;color: #fff;">No accounts found. Please press '+ add account' to create an account.</p>
+              </ion-text>
+            </ion-col>
+          </ng-template>
         </ng-container>
 
         <ng-template #accountsSkeleton>

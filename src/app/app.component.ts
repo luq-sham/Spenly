@@ -18,8 +18,13 @@ export class AppComponent {
     { title: 'Savings', url: '/folder/kucing', icon: 'trending-up-outline' },
   ];
 
+  userData = localStorage.getItem('userData')
+  fname:any
+  lname:any
+
   display: any;
   allowedPaths = ['/login', '/register'];
+
   constructor(
     private router: Router,
     private auth: AuthService,
@@ -31,9 +36,22 @@ export class AppComponent {
       .subscribe((event: NavigationEnd) => {
         this.display = !this.allowedPaths.includes(event.urlAfterRedirects);
       });
+      this.loadUserData()
   }
 
   logout() {
     this.auth.logout()
+  }
+
+  loadUserData(){
+    const userData = localStorage.getItem('userData')
+    if (userData) {
+      const userDetails = JSON.parse(userData);
+      this.fname = userDetails.first_name;
+      this.lname = userDetails.last_name;
+    } else {
+      this.fname = '';
+      this.lname = '';
+    }
   }
 }

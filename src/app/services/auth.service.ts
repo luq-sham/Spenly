@@ -193,7 +193,8 @@ export class AuthService implements OnDestroy {
       const param = { email };
       this.api.postLogin(param).subscribe({
         next: (res) => {
-          localStorage.setItem('token', JSON.stringify({ token }));
+          localStorage.setItem('token',token);
+          localStorage.setItem('id', res.return_data.id);
           localStorage.setItem('userData', JSON.stringify(res.return_data));
           // Set initial session expiry
           localStorage.setItem(

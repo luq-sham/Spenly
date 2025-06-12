@@ -110,25 +110,10 @@ export class DashboardPage implements OnInit {
     this.api.getAccountsByUser(param).subscribe(res=>{
       if(res.status_code == 200){
         this.accountLoading = false
-        this.accounts = res.return_data.map((account: any) => ({
-          ...account,
-          // Convert Firestore timestamps to Date objects
-          created_at: this.convertTimestamp(account.created_at),
-          updated_at: this.convertTimestamp(account.updated_at)
-        }));
+        this.accounts = res.return_data
       }
     })
   }
-
-  private convertTimestamp(timestamp: any): Date | null {
-  if (!timestamp) return null;
-  // If it's a Firestore timestamp
-  if (timestamp.toDate) {
-    return timestamp.toDate();
-  }
-  // If it's already a Date or ISO string
-  return new Date(timestamp);
-}
 
   getProgressColor(type: any, budget: any) {
     if (type == 'percent') {

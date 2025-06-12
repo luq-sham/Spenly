@@ -1,5 +1,11 @@
 import { Injectable, inject, OnDestroy, ApplicationRef } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from '@angular/fire/auth';
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  User,
+} from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 import { ApiService } from './api.service';
@@ -69,10 +75,10 @@ export class AuthService implements OnDestroy {
         this.alert
           .customAlertOK(
             'Session Expired',
-            'Your session has expired due to inactivity. Please log in again.',
+            'Your session has expired due to inactivity. Please log in again.'
           )
           .then((res) => {
-            if(res == 'confirm'){
+            if (res == 'confirm') {
               this.performLogout();
             }
           });
@@ -196,7 +202,7 @@ export class AuthService implements OnDestroy {
           );
 
           this.initializeSessionManagement();
-          this.router.navigate(['/dashboard']);
+          window.location.href = '/dashboard';
           this.toast.customToast(
             'User successfully logged in',
             2000,
@@ -216,7 +222,7 @@ export class AuthService implements OnDestroy {
     this.loading.customLoading();
 
     try {
-      await this.api.postRegister(param).toPromise();
+      await this.api.postRegister(param);
       await createUserWithEmailAndPassword(this.auth, email, password);
 
       this.loading.dismiss();
@@ -264,6 +270,7 @@ export class AuthService implements OnDestroy {
   private cleanupSession(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');
+    localStorage.removeItem('id');
     localStorage.removeItem(this.sessionExpiryKey);
     clearTimeout(this.timeoutId);
     this.stopTokenRefresh();

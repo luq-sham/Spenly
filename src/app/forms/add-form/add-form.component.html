@@ -1,3 +1,48 @@
-<p>
-  add-form works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar style="--background: #354b6f;--color:#fff">
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="form-content">
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="pencil" slot="start" color="secondary" ></ion-icon>
+      <ion-input label="Account Name" labelPlacement="stacked" formControlName="account_name" ></ion-input>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of validations.account_name" [message]="val.message" [field]="accountForm.get('account_name')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="list" slot="start" color="secondary" ></ion-icon>
+      <ion-select label="Type" labelPlacement="stacked" formControlName="account_type">
+        <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of validations.account_type" [message]="val.message" [field]="accountForm.get('account_type')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="calculator-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-input type="number" label="Initial Balance" labelPlacement="stacked" formControlName="initialBalance" ></ion-input>
+      <ion-note slot="end" color="medium">MYR</ion-note>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of validations.initialBalance" [message]="val.message" [field]="accountForm.get('initialBalance')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-buttons">
+    <ion-button slot="start" fill="clear" (click)="onDismiss()">Dismiss</ion-button>
+    <ion-button slot="end" fill="solid" color="primary" (click)="onSubmit()">Create</ion-button>
+  </div>
+</ion-footer>

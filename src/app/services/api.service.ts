@@ -4,23 +4,32 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
+  url = environment.url;
 
-  url = environment.url
-
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   postRegister(data: any): Observable<any> {
-    const url = this.url + '/api/register'
-    return this.http.post(url,data);
+    const url = this.url + '/api/register';
+    return this.http.post(url, data);
   }
 
   postLogin(data: any): Observable<any> {
-    const url = this.url + '/api/login'
-    return this.http.post(url,data);
+    const url = this.url + '/api/login';
+    return this.http.post(url, data);
   }
+
+  /////////////////////////////////////////////////////////////////
+
+  postAddAccount(data: any): Observable<any> {
+    const url = this.url + '/api/post_add_accounts';
+    return this.http.post(url, data);
+  }
+
+  getAccountsByUser(data: any): Observable<any> {
+  const url = this.url + '/api/get_accounts_by_user';
+  return this.http.post(url,data);
+}
 }

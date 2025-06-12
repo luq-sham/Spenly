@@ -35,8 +35,9 @@ export class AuthService {
             email: email
           }
           this.api.postLogin(param).subscribe(res=>{
-            localStorage.setItem('token', JSON.stringify({ token }));
+            localStorage.setItem('token', token);
             localStorage.setItem('userData', JSON.stringify(res.return_data));
+            localStorage.setItem('id', res.return_data.id);
             this.router.navigate(['/dashboard']);
           })
         });

@@ -74,8 +74,12 @@ ion-card.account-card:hover {
   font-size: 16px;
   font-weight: bold;
   color: #2b7a78;
-  text-align: center;
   padding: 0px;
+
+  .balance-label{
+    display: flex;
+    justify-content: center;
+  }
 }
 
 ion-card {

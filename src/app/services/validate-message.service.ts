@@ -62,6 +62,20 @@ export class ValidateMessageService {
           ],
         }
       }
+
+      case 'accounts': {
+        return validations = {
+          account_name:[
+            {label: 'Account Name', error: 'required', message: 'Account name is required'}
+          ],
+          account_type:[
+            {label: 'Account type', error: 'required', message: 'Account type is required'}
+          ],
+          initialBalance:[
+            {label: 'Account Balance', error: 'required', message: 'Initial Balance is required'}
+          ]
+        }
+      }
     }
 
     return 'invalid input'

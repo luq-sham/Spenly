@@ -83,6 +83,7 @@ export class RegisterPage implements OnInit {
     const param = {
       ...userInfo,
       email,
+      isActive: true,
       created_at: new Date(),
       updated_at: new Date(),
     };

@@ -1,0 +1,30 @@
+ion-item {
+  --background: rgb(226, 226, 226);
+  --border-radius: 8px;
+}
+
+ion-button {
+  border-radius: 30px;
+}
+
+.error-message {
+  margin-bottom: 12px;
+}
+
+.footer-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+}
+
+.form-content {
+  --padding-top: 28px;
+  --padding-start: 28px;
+  --padding-end: 28px;
+}
+
+.form-icon {
+  background: #c9c9c9;
+  padding: 8px;
+  border-radius: 50%;
+}

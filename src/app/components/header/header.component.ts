@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -14,6 +14,7 @@ import {
   imports: [IonButtons, IonTitle, IonToolbar, IonHeader, IonMenuButton],
 })
 export class HeaderComponent implements OnInit {
+  @Input() title!: string;
   constructor() {}
 
   ngOnInit() {}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { IonContent, IonImg, IonCard, IonCardContent, IonItem, IonIcon, IonInput, IonButton, IonCheckbox, IonGrid, IonCol, IonRow, IonFooter, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -9,9 +9,6 @@ import { ErrorMessageComponent } from 'src/app/components/error-message/error-me
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastService } from 'src/app/services/toast.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { ApiService } from 'src/app/services/api.service';
 import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
@@ -35,9 +32,6 @@ export class RegisterPage implements OnInit {
     private readonly alert: AlertService,
     private readonly router: Router,
     private readonly auth: AuthService,
-    private readonly toast: ToastService,
-    private readonly loading: LoadingService,
-    private readonly api: ApiService,
     private readonly crypt: EncryptionService
   ) {
     this.validations = this.validationService.formValidation('register');
@@ -62,11 +56,16 @@ export class RegisterPage implements OnInit {
     );
   }
 
-  private passwordMatchValidator: ValidatorFn = (group: AbstractControl) => {
+  private passwordMatchValidator(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
-    return password && confirmPassword && password !== confirmPassword? { notMatching: true }: null;
-  };
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      group.get('confirmPassword')?.setErrors({ notMatching: true });
+    }
+
+    return null;
+  }
 
   public async onSubmit(): Promise<void> {
     this.isSubmitted = true;
@@ -88,33 +87,8 @@ export class RegisterPage implements OnInit {
       updated_at: new Date(),
     };
 
-    try {
-      this.loading.customLoading();
-      await this.auth.signup(email, this.crypt.encrypt(password));
-
-      this.api.postRegister(param).subscribe({
-        next: () => {
-          this.registerForm.reset()
-          this.loading.dismiss();
-          this.toast.customToast('User Successfully Registered.',2000,'success');
-          this.router.navigate(['/login']);
-        },
-        error: (err) => {
-          this.loading.dismiss();
-          this.toast.customToast('Server error during registration.',2000,'danger');
-          console.error('API registration failed:', err);
-        },
-      });
-    } catch (error: any) {
-      this.loading.dismiss();
-
-      if (error.code === 'auth/email-already-in-use') {
-        this.toast.customToast('Email already in use. Please use a different email.',2000,'warning');
-      } else {
-        this.toast.customToast(error.message || 'Registration failed.',2000,'warning');
-      }
-      console.error('Signup failed:', error);
-    }
+    this.auth.signup(email, this.crypt.encrypt(password), param);
+    this.registerForm.reset()
   }
 
   public togglePasswordVisibility(type: 'password' | 'confirmPassword'): void {

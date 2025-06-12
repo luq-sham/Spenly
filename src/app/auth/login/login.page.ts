@@ -7,9 +7,7 @@ import { Router } from '@angular/router';
 import { ErrorMessageComponent } from 'src/app/components/error-message/error-message.component';
 import { ValidateMessageService } from 'src/app/services/validate-message.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastService } from 'src/app/services/toast.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { ApiService } from 'src/app/services/api.service';
 import { EncryptionService } from 'src/app/services/encryption.service';
 
 @Component({
@@ -30,9 +28,7 @@ export class LoginPage implements OnInit {
     private readonly router: Router,
     private readonly validate: ValidateMessageService,
     private readonly auth: AuthService,
-    private readonly toast: ToastService,
     private readonly loading: LoadingService,
-    private readonly api: ApiService,
     private readonly crypt: EncryptionService
   ) {
     this.validations = this.validate.formValidation('login');

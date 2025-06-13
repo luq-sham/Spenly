@@ -29,7 +29,35 @@ export class ApiService {
   }
 
   getAccountsByUser(data: any): Observable<any> {
-  const url = this.url + '/api/get_accounts_by_user';
-  return this.http.post(url,data);
-}
+    const url = this.url + '/api/get_accounts_by_user';
+    return this.http.post(url, data);
+  }
+
+  postEditAccount(data: any): Observable<any> {
+    const url = this.url + '/api/post_edit_account';
+    return this.http.post(url, data);
+  }
+
+  /////////////////////////////////////////////////////////////////
+
+  postAddTransactions(data: any): Observable<any> {
+    const url = this.url + '/api/post_add_transaction';
+    return this.http.post(url, data);
+  }
+
+  getTransactionByUser(data: any): Observable<any> {
+    const url = this.url + '/api/get_transactions_by_user';
+    return this.http.post(url, data);
+  }
+
+  /////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////
+
+  getCategories(): Observable<any> {
+    const url = this.url + '/api/get_categories';
+    return this.http.get(url);
+  }
+
+  /////////////////////////////////////////////////////////////////
 }

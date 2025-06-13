@@ -9,12 +9,13 @@ export class ToastService {
     private toast: ToastController,
   ) { }
 
-  async customToast(message: string, duration: number = 2000, color: string = 'primary') {
+  async customToast(message: string, duration: number = 2000, color: string = 'primary', css?:string) {
     const toast = await this.toast.create({
       message,
       duration,
       color,
-      position: 'bottom'
+      position: 'bottom',
+      cssClass: css
     });
     await toast.present();
   }

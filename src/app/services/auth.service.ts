@@ -182,6 +182,7 @@ export class AuthService implements OnDestroy {
   }
 
   async login(email: string, password: string): Promise<void> {
+    this.loading.customLoading();
     try {
       const userCredential = await signInWithEmailAndPassword(
         this.auth,
@@ -193,7 +194,8 @@ export class AuthService implements OnDestroy {
       const param = { email };
       this.api.postLogin(param).subscribe({
         next: (res) => {
-          localStorage.setItem('token',token);
+          this.loading.dismiss();
+          localStorage.setItem('token', token);
           localStorage.setItem('id', res.return_data.id);
           localStorage.setItem('userData', JSON.stringify(res.return_data));
           // Set initial session expiry
@@ -203,7 +205,7 @@ export class AuthService implements OnDestroy {
           );
 
           this.initializeSessionManagement();
-          window.location.href = '/dashboard';
+          this.router.navigate(['/dashboard']);
           this.toast.customToast(
             'User successfully logged in',
             2000,
@@ -211,10 +213,12 @@ export class AuthService implements OnDestroy {
           );
         },
         error: (err) => {
+          this.loading.dismiss();
           this.handleLoginError(err);
         },
       });
     } catch (error: any) {
+      this.loading.dismiss();
       this.handleLoginError(error);
     }
   }

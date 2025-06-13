@@ -55,7 +55,6 @@ export class LoginPage implements OnInit {
     }
 
     const { email, password } = this.loginForm.value;
-    this.loading.customLoading();
 
     this.auth.login(email, this.crypt.encrypt(password))
   }

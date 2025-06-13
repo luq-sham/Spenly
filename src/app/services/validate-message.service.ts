@@ -76,6 +76,20 @@ export class ValidateMessageService {
           ]
         }
       }
+
+      case 'transactions': {
+        return validations = {
+          amount:[
+            {label: 'Amount', error: 'required', message: 'Amount is required'}
+          ],
+          categoryID:[
+            {label: 'Category', error: 'required', message: 'Category is required'}
+          ],
+          accountID:[
+            {label: 'Account', error: 'required', message: 'Account is required'}
+          ],
+        }
+      }
     }
 
     return 'invalid input'

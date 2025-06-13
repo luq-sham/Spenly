@@ -1,0 +1,130 @@
+<ion-header [translucent]="true">
+  <ion-toolbar style="--background: #354b6f;--color:#fff">
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="formID == 2">
+  <ion-toolbar>
+    <form [formGroup]="transactionForm">
+      <ion-segment value="expense" formControlName="type" (ionChange)="setCategory($event)">
+        <ion-segment-button value="income">
+          <ion-label>Income</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="expense">
+          <ion-label>Expense</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </form>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="form-content">
+
+  <!-- Add/Edit Account Form -->
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" *ngIf="formID == 1">
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="pencil" slot="start" color="secondary" ></ion-icon>
+      <ion-input label="Account Name" labelPlacement="stacked" formControlName="account_name" ></ion-input>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of accountValidations.account_name" [message]="val.message" [field]="accountForm.get('account_name')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="list" slot="start" color="secondary" ></ion-icon>
+      <ion-select label="Type" labelPlacement="stacked" formControlName="account_type">
+        <ion-select-option *ngFor="let type of types" [value]="type.name">{{type.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of accountValidations.account_type" [message]="val.message" [field]="accountForm.get('account_type')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none" *ngIf="!isEdit">
+      <ion-icon class="form-icon" name="calculator-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-input type="number" label="Initial Balance" labelPlacement="stacked" formControlName="initialBalance" ></ion-input>
+      <ion-note slot="end" color="medium">MYR</ion-note>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of accountValidations.initialBalance" [message]="val.message" [field]="accountForm.get('initialBalance')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none" *ngIf="isEdit">
+      <ion-icon class="form-icon" name="calculator-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-input type="number" label="Current Balance" labelPlacement="stacked" formControlName="currentBalance" ></ion-input>
+      <ion-note slot="end" color="medium">MYR</ion-note>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of accountValidations.currentBalance" [message]="val.message" [field]="accountForm.get('currentBalance')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+  </form>
+
+  <!-- Add/Edit Transactions Form -->
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" *ngIf="formID == 2">
+    
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="cash-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-input type="number" label="Amount" labelPlacement="stacked" formControlName="amount" ></ion-input>
+      <ion-note slot="end" color="medium">MYR</ion-note>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of transactionValidations.amount" [message]="val.message" [field]="transactionForm.get('amount')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="list-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-select [label]="'Type ('+typeLabel+')'" labelPlacement="stacked" formControlName="categoryID">
+        <ion-select-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of transactionValidations.categoryID" [message]="val.message" [field]="transactionForm.get('categoryID')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="wallet-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-select label="Selected Account" labelPlacement="stacked" formControlName="accountID">
+        <ion-select-option *ngFor="let account of accounts" [value]="account.id">{{account.account_name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of transactionValidations.accountID" [message]="val.message" [field]="transactionForm.get('accountID')!" [error]="val.error" [submitted]="isSubmitted" ></app-error-message>
+    </div>
+
+    <ion-item lines="none">
+      <ion-icon class="form-icon" name="reader-outline" slot="start" color="secondary" ></ion-icon>
+      <ion-textarea rows="3" label="Description" labelPlacement="stacked" formControlName="description"></ion-textarea>
+    </ion-item>
+    <div class="error-message">
+    </div>
+
+    <ion-item lines="none" class="form">
+      <ion-icon name="calendar-outline" slot="start" class="icon" ></ion-icon>
+      <ion-input label="Date" labelPlacement="stacked" formControlName="date" type="text" placeholder="Enter Date" readonly id="pop-date"></ion-input>
+      <ion-popover trigger="pop-date">
+        <ng-template>
+          <ion-datetime presentation="date" [value]="transactionForm.get('date')?.value | date:'yyyy-MM-dd'" (ionChange)="transactionForm.get('date')?.setValue($event.detail.value)"></ion-datetime>
+        </ng-template>
+      </ion-popover>
+    </ion-item>
+    <div class="error-message">
+      <app-error-message *ngFor="let val of transactionValidations.date" [message]="val.message" [field]="transactionForm.get('date')!" [error]="val.error" [submitted]="isSubmitted"></app-error-message>
+    </div>
+
+  </form>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-buttons">
+    <ion-button slot="start" fill="clear" (click)="onDismiss()">Dismiss</ion-button>
+    <ion-button slot="end" fill="solid" color="primary" (click)="onSubmit()">Create</ion-button>
+  </div>
+</ion-footer>

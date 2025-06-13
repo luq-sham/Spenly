@@ -10,7 +10,6 @@ export class LoadingService {
     const loader = await this.loading.create({
       message,
       spinner: 'crescent',
-      duration: 3000,
       translucent: true,
       cssClass: 'custom-loading'
     });

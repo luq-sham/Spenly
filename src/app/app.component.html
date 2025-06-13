@@ -11,7 +11,10 @@
               <ion-img src="https://simg.nicepng.com/png/small/128-1280406_view-user-icon-png-user-circle-icon-png.png" />
             </ion-avatar>
           </div>
-          <ion-text class="username">{{fname}} {{lname}}</ion-text>
+          <ion-label class="user-info" style="display: flex;flex-direction: column;">
+            <ion-text class="username">{{fname}} {{lname}}</ion-text>
+            <ion-note class="email">{{email}}</ion-note>
+          </ion-label>
         </div>
       </ion-header>
       <ion-content>

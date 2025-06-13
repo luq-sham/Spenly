@@ -17,18 +17,27 @@ import {
   IonItem,
   IonAvatar,
   IonProgressBar,
-  IonText, IonSkeletonText } from '@ionic/angular/standalone';
+  IonText,
+  IonSkeletonText,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+} from '@ionic/angular/standalone';
 import { HeaderComponent } from '../components/header/header.component';
 import { ModalController } from '@ionic/angular/standalone';
-import { AddFormComponent } from '../forms/add-form/add-form.component';
 import { ApiService } from '../services/api.service';
+import { FormComponent } from '../forms/form/form.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [IonSkeletonText, 
+  imports: [
+    IonFabList,
+    IonFabButton,
+    IonFab,
+    IonSkeletonText,
     IonText,
     IonProgressBar,
     IonAvatar,
@@ -51,43 +60,11 @@ import { ApiService } from '../services/api.service';
   ],
 })
 export class DashboardPage implements OnInit {
-  accounts:any = [];
+  accounts: any = [];
   accountLoading = true;
+  transactionLoading = true;
 
-  transactions = [
-    {
-      date: new Date(),
-      description: 'Groceries',
-      amount: -50,
-      type: 'expense',
-      icon: 'cart',
-      account: 'Cash',
-    },
-    {
-      date: new Date(),
-      description: 'Salary',
-      amount: 2000,
-      type: 'income',
-      icon: 'cart',
-      account: 'Cash',
-    },
-    {
-      date: new Date(),
-      description: 'Utility',
-      amount: -100,
-      type: 'expense',
-      icon: 'cart',
-      account: 'Cash',
-    },
-    {
-      date: new Date(),
-      description: 'Investment',
-      amount: 500,
-      type: 'income',
-      icon: 'cart',
-      account: 'Cash',
-    },
-  ];
+  transactions:any = [];
 
   budgets = [
     { budget_name: 'Groceries', amount: 200, used: 10, updated_at: new Date() },
@@ -95,22 +72,36 @@ export class DashboardPage implements OnInit {
     { budget_name: 'Social', amount: 50, used: 45, updated_at: new Date() },
   ];
 
-  userID = localStorage.getItem('id')
+  userID = localStorage.getItem('id');
 
   constructor(private modals: ModalController, private api: ApiService) {}
 
   ngOnInit() {
-    this.getAccountsData()
+    this.getAccountsData();
+    this.getTransactionData();
   }
 
-  getAccountsData(){
-    let param ={
+  getAccountsData() {
+    let param = {
+      userID: this.userID,
+    };
+    this.api.getAccountsByUser(param).subscribe((res) => {
+      if (res.status_code == 200) {
+        this.accountLoading = false;
+        this.accounts = res.return_data;
+      }
+    });
+  }
+
+  getTransactionData(){
+    let param = {
       userID: this.userID
     }
-    this.api.getAccountsByUser(param).subscribe(res=>{
+
+    this.api.getTransactionByUser(param).subscribe(res=>{
       if(res.status_code == 200){
-        this.accountLoading = false
-        this.accounts = res.return_data
+        this.transactionLoading = false
+        this.transactions = res.return_data
       }
     })
   }
@@ -129,7 +120,7 @@ export class DashboardPage implements OnInit {
 
   async addAccountModal() {
     const modal = await this.modals.create({
-      component: AddFormComponent,
+      component: FormComponent,
       componentProps: {
         title: 'New Account',
         formID: 1,
@@ -141,7 +132,45 @@ export class DashboardPage implements OnInit {
     const { data } = await modal.onDidDismiss();
 
     if (data) {
-      window.location.reload()
+      window.location.reload();
+    }
+  }
+
+  async editAccountModal(account: any) {
+    const modal = await this.modals.create({
+      component: FormComponent,
+      componentProps: {
+        title: 'Edit Account',
+        formID: 1,
+        isEdit: true,
+        dataEdit: account,
+      },
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      window.location.reload();
+    }
+  }
+
+  async addTransactionModal(){
+    const modal = await this.modals.create({
+      component: FormComponent,
+      componentProps: {
+        title: 'New Transaction',
+        formID: 2,
+      },
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      this.ngOnInit();
     }
   }
 }

@@ -1,0 +1,73 @@
+// ===========================
+// CONFIGURABLE VARIABLES
+// ===========================
+$spacing-unit: px; // can be px, rem, etc.
+$spacing-values: 0, 2, 4, 6, 8, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
+
+$width-unit: '%'; // can be px, rem, etc.
+$width-values: 0, 2, 4, 6, 8, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
+
+$size-unit: px; // can be px, rem, etc.
+$size-values: 0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
+
+// ===========================
+// MIXIN TO GENERATE CLASSES
+// ===========================
+@mixin generate-spacing($property, $prefix) {
+  @each $value in $spacing-values {
+    .#{$prefix}-#{$value} {
+      #{$property}: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}t-#{$value} {
+      #{$property}-top: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}r-#{$value} {
+      #{$property}-right: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}b-#{$value} {
+      #{$property}-bottom: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}l-#{$value} {
+      #{$property}-left: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}x-#{$value} {
+      #{$property}-left: #{$value}#{$spacing-unit} !important;
+      #{$property}-right: #{$value}#{$spacing-unit} !important;
+    }
+
+    .#{$prefix}y-#{$value} {
+      #{$property}-top: #{$value}#{$spacing-unit} !important;
+      #{$property}-bottom: #{$value}#{$spacing-unit} !important;
+    }
+  }
+}
+
+@mixin generate-width($property, $prefix) {
+  @each $value in $width-values {
+    .#{$prefix}-#{$value} {
+      #{$property}: #{$value}#{$width-unit} !important;
+    }
+  }
+}
+
+@mixin generate-size($property, $prefix) {
+  @each $value in $size-values {
+    .#{$prefix}-#{$value} {
+      #{$property}: #{$value}#{$size-unit} !important;
+    }
+  }
+}
+
+// ===========================
+// GENERATE MARGIN & PADDING
+// ===========================
+@include generate-spacing(margin, m);
+@include generate-spacing(padding, p);
+@include generate-width(width, w);
+@include generate-spacing(border-radius, rounded);
+@include generate-size(font-size, fs);

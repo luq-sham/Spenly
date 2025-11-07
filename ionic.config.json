@@ -1,0 +1,7 @@
+{
+  "name": "spenly",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

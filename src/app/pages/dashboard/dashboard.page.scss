@@ -1,0 +1,54 @@
+ion-col {
+  padding: 0;
+}
+
+.add-acc-card {
+  --background: transparent;
+  border: 1px dashed white;
+  cursor: pointer;
+
+
+  .title-label {
+    font-size: 14px;
+    color: #fff;
+  }
+
+  transition: all 0.3s ease;
+  transform: translateY(0);
+
+  &:hover {
+    transform: translateY(-5px);
+    // box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.acc-card {
+  --background: #fff;
+  cursor: pointer;
+
+
+  .title-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-color-main);
+  }
+
+  transition: all 0.3s ease;
+  transform: translateY(0);
+
+  &:hover {
+    transform: translateY(-5px);
+    // box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.no-acc-text {
+  text-align: center;
+  color: #cecece;
+  font-style: italic;
+  font-size: 16px;
+
+  @media (max-width:700px) {
+    font-size: smaller;
+  }
+}

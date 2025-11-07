@@ -1,0 +1,52 @@
+// For information on how to create your own theme, please see:
+// http://ionicframework.com/docs/theming/
+
+:root {
+    --ion-color-main: #1B4353;
+    --ion-color-main-rgb: 27, 67, 83;
+    --ion-color-main-contrast: #ffffff;
+    --ion-color-main-contrast-rgb: 255, 255, 255;
+    --ion-color-main-shade: #183b49;
+    --ion-color-main-tint: #325664;
+
+    --ion-color-main-secondary: #6DAEDB;
+    --ion-color-main-secondary-rgb: 109, 174, 219;
+    --ion-color-main-secondary-contrast: #000000;
+    --ion-color-main-secondary-contrast-rgb: 0, 0, 0;
+    --ion-color-main-secondary-shade: #6099c1;
+    --ion-color-main-secondary-tint: #7cb6df;
+
+    --ion-color-bg-main: #EFF7FD;
+    --ion-color-bg-main-rgb: 239, 247, 253;
+    --ion-color-bg-main-contrast: #000000;
+    --ion-color-bg-main-contrast-rgb: 0, 0, 0;
+    --ion-color-bg-main-shade: #d2d9df;
+    --ion-color-bg-main-tint: #f1f8fd;
+}
+
+.ion-color-main {
+    --ion-color-base: var(--ion-color-main);
+    --ion-color-base-rgb: var(--ion-color-main-rgb);
+    --ion-color-contrast: var(--ion-color-main-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-main-contrast-rgb);
+    --ion-color-shade: var(--ion-color-main-shade);
+    --ion-color-tint: var(--ion-color-main-tint);
+}
+
+.ion-color-main-secondary {
+    --ion-color-base: var(--ion-color-main-secondary);
+    --ion-color-base-rgb: var(--ion-color-main-secondary-rgb);
+    --ion-color-contrast: var(--ion-color-main-secondary-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-main-secondary-contrast-rgb);
+    --ion-color-shade: var(--ion-color-main-secondary-shade);
+    --ion-color-tint: var(--ion-color-main-secondary-tint);
+}
+
+.ion-color-bg-main {
+    --ion-color-base: var(--ion-color-bg-main);
+    --ion-color-base-rgb: var(--ion-color-bg-main-rgb);
+    --ion-color-contrast: var(--ion-color-bg-main-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-bg-main-contrast-rgb);
+    --ion-color-shade: var(--ion-color-bg-main-shade);
+    --ion-color-tint: var(--ion-color-bg-main-tint);
+}

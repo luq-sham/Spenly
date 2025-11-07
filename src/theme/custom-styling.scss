@@ -1,0 +1,31 @@
+ion-content {
+  --background: #EFF7FD; // light gray background
+}
+
+.text-center {
+  text-align: center;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+.justify-content-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.align-middle {
+  align-content: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}

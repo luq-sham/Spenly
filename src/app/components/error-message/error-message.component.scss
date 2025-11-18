@@ -1,0 +1,9 @@
+ion-label {
+  font-size: 12px;
+  display: block;
+
+  &.error {
+    color: var(--ion-color-danger) !important;
+    font-weight: bold;
+  }
+}

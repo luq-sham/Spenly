@@ -2,53 +2,52 @@
 // CONFIGURABLE VARIABLES
 // ===========================
 $spacing-unit: px; // can be px, rem, etc.
-$spacing-values: 0, 2, 4, 6, 8, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
-
 $width-unit: '%'; // can be px, rem, etc.
-$width-values: 0, 2, 4, 6, 8, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
-
 $size-unit: px; // can be px, rem, etc.
-$size-values: 0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100;
+
+$values: 0, 2, 4, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22, 23, 24, 25, 32, 40, 50, 64, 80, 100;
+$weight: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+$align: 'start', 'center', 'end', 'between';
 
 // ===========================
 // MIXIN TO GENERATE CLASSES
 // ===========================
 @mixin generate-spacing($property, $prefix) {
-  @each $value in $spacing-values {
+  @each $value in $values {
     .#{$prefix}-#{$value} {
-      #{$property}: #{$value}#{$spacing-unit} !important;
+      #{$property}: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}t-#{$value} {
-      #{$property}-top: #{$value}#{$spacing-unit} !important;
+      #{$property}-top: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}r-#{$value} {
-      #{$property}-right: #{$value}#{$spacing-unit} !important;
+      #{$property}-right: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}b-#{$value} {
-      #{$property}-bottom: #{$value}#{$spacing-unit} !important;
+      #{$property}-bottom: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}l-#{$value} {
-      #{$property}-left: #{$value}#{$spacing-unit} !important;
+      #{$property}-left: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}x-#{$value} {
-      #{$property}-left: #{$value}#{$spacing-unit} !important;
-      #{$property}-right: #{$value}#{$spacing-unit} !important;
+      #{$property}-left: #{$value}#{$spacing-unit};
+      #{$property}-right: #{$value}#{$spacing-unit};
     }
 
     .#{$prefix}y-#{$value} {
-      #{$property}-top: #{$value}#{$spacing-unit} !important;
-      #{$property}-bottom: #{$value}#{$spacing-unit} !important;
+      #{$property}-top: #{$value}#{$spacing-unit};
+      #{$property}-bottom: #{$value}#{$spacing-unit};
     }
   }
 }
 
 @mixin generate-width($property, $prefix) {
-  @each $value in $width-values {
+  @each $value in $values {
     .#{$prefix}-#{$value} {
       #{$property}: #{$value}#{$width-unit} !important;
     }
@@ -56,9 +55,25 @@ $size-values: 0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100
 }
 
 @mixin generate-size($property, $prefix) {
-  @each $value in $size-values {
+  @each $value in $values {
     .#{$prefix}-#{$value} {
       #{$property}: #{$value}#{$size-unit} !important;
+    }
+  }
+}
+
+@mixin generate-weight($property, $prefix) {
+  @each $value in $weight {
+    .#{$prefix}-#{$value} {
+      #{$property}: #{$value} !important;
+    }
+  }
+}
+
+@mixin generate-align($property, $prefix) {
+  @each $value in $align {
+    .#{$prefix}-#{$value} {
+      #{$property}: #{$value};
     }
   }
 }
@@ -69,5 +84,12 @@ $size-values: 0, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 32, 40, 50, 64, 80, 100
 @include generate-spacing(margin, m);
 @include generate-spacing(padding, p);
 @include generate-width(width, w);
+@include generate-width(height, h);
 @include generate-spacing(border-radius, rounded);
 @include generate-size(font-size, fs);
+@include generate-weight(font-weight, fw);
+
+@include generate-align(justify-content, justify-contents);
+@include generate-align(align-items, align-items);
+@include generate-align(align-content, align-contents);
+@include generate-align(align-content, align-content);

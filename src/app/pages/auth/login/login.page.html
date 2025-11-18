@@ -1,0 +1,54 @@
+<ion-content [fullscreen]="false" color="light" class="ion-padding">
+  <div class="login-container">
+    <ion-card class="login-card">
+      <ion-card-header class="ion-text-center">
+        <ion-img src="assets/icon/icon.png" class="logo"></ion-img>
+        <ion-card-title class="title">Welcome Back</ion-card-title>
+        <ion-card-subtitle class="subtitle">Login to manage your expenses</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="form" (ngSubmit)="login()">
+          <ion-item class="input-item" lines="none">
+            <ion-icon name="mail-outline" slot="start" class="icon"></ion-icon>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input formControlName="email" type="email" placeholder="example@domain.com"></ion-input>
+          </ion-item>
+
+          <div class="ml-23">
+            <app-error-message *ngFor="let val of validations?.email" [field]="form.get('email')"
+              [error]="val.error" [message]="val.message"></app-error-message>
+          </div>
+
+          <ion-item class="input-item" lines="none">
+            <ion-icon name="lock-closed-outline" slot="start" class="icon"></ion-icon>
+            <ion-label position="stacked">Password</ion-label>
+            <ion-input formControlName="password" [type]="showPassword?'text':'password'"
+              placeholder="Enter your password"></ion-input>
+            <ion-icon [name]="showPassword? 'eye-off-outline':'eye-outline'" slot="end"
+              class="cursor-pointer showPassword" (click)="showPasswordToggle()"></ion-icon>
+          </ion-item>
+
+          <div class="ml-23">
+            <app-error-message *ngFor="let val of validations?.password" [field]="form.get('password')"
+              [error]="val.error" [message]="val.message"></app-error-message>
+          </div>
+
+          <div class="ion-text-end">
+            <ion-button fill="clear" (click)="goToForgotPassword()" class="forgot-password">
+              <ion-label color="primary">Forgot password?</ion-label>
+            </ion-button>
+          </div>
+
+          <ion-button expand="block" type="submit" shape="round" class="login-btn" [disabled]="form.invalid">
+            Login
+          </ion-button>
+
+          <div class="register-text ion-text-center">
+            <p>Don't have an account? <ion-text color="primary" routerLink="/register">Register</ion-text></p>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -52,3 +52,42 @@ ion-col {
     font-size: smaller;
   }
 }
+
+.show-more {
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+
+}
+
+.title-card {
+  margin: 16px 16px 12px;
+
+  &.center {
+    text-align: center;
+  }
+}
+
+.chart {
+  width: 35vw;
+
+  @media (max-width:700px) {
+    width: 100vw;
+  }
+}
+
+.sticky-segment {
+  position: sticky;
+  top: 0; // Stick to top
+  z-index: 999; // Stay above content
+  background: var(--ion-color-bg-main); // Prevent transparency issues
+}
+
+.no-transaction {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+}

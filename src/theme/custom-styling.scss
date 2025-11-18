@@ -10,6 +10,18 @@ ion-content {
   display: flex;
 }
 
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.d-inline {
+  display: inline;
+}
+
 .justify-content-center {
   display: flex;
   justify-content: center;
@@ -24,8 +36,133 @@ ion-content {
   align-content: center;
 }
 
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-end {
+  align-items: end;
+}
+
+.align-items-middle {
+  align-items: center;
+}
+
 .title {
   font-size: 20px;
   font-weight: 600;
   color: #fff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-main {
+  --background: var(--ion-color-main);
+}
+
+// MODALS
+
+.addAccModal {
+  --width: 50vw;
+  --height: 60vh;
+  --border-radius: 10px;
+
+  @media (max-width:700px) {
+    --width: 100vw;
+    --height: 100vh;
+    --border-radius: 0px;
+  }
+
+  .input-item {
+    align-items: center;
+    margin-top: 0px;
+    --background: #ffffff;
+
+    ion-icon {
+      margin-top: 12px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.addTransModal {
+  --width: 50vw;
+  --height: 70vh;
+  --border-radius: 10px;
+
+  @media (max-width:700px) {
+    --width: 100vw;
+    --height: 100vh;
+    --border-radius: 0px;
+  }
+
+  .input-item {
+    align-items: center;
+    margin-top: 0px;
+    --background: #ffffff;
+
+    ion-icon {
+      margin-top: 12px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.alert-modal {
+  --width: 30vw;
+  --height: 22vh;
+  --border-radius: 5px;
+  --background: #ffffff;
+
+
+  @media (max-width: 768px) {
+    --width: 70vw;
+  }
+
+  @media (min-height: 768px) {
+    --height: 400px;
+  }
+}
+
+.custom-select-modal {
+  --width: 100%;
+}
+
+// Custom Css
+
+.input-item {
+  margin-top: 10px;
+  --background: #f8f8f8;
+  --border-radius: 20px;
+  padding: 4px 6px;
+  align-items: center;
+
+  .icon {
+    font-weight: 600;
+    color: var(--ion-color-main);
+    background: rgba(94, 94, 94, 0.1);
+    border-radius: 50%;
+    padding: 8px;
+    font-size: 20px;
+  }
+
+  .showPassword {
+    color: var(--ion-color-primary);
+    padding: 8px;
+    font-size: 20px;
+  }
+
+  ion-label {
+    font-weight: 600;
+  }
+
+  ion-input {
+    --padding-start: 0;
+  }
+
+  @media (max-width:700px) {
+    font-size: 14px;
+  }
 }

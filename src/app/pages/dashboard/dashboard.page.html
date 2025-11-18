@@ -1,6 +1,7 @@
 <app-header [title]="'Dashboard'"></app-header>
 
 <ion-content [fullscreen]="false">
+  <!-- Accounts List -->
   <ion-card class="m-0 rounded-0" style="--background: var(--ion-color-main)">
     <ion-card-content class="m-8 p-4">
       <ion-grid class="m-0">
@@ -10,8 +11,8 @@
           </ion-col>
         </ion-row>
 
-        @if (accountData.length == 0) {
         <!-- Label If No Accounts -->
+        @if (accountData.length == 0) {
         <ion-row class="justify-content-center pt-8">
           <ion-label class="no-acc-text">
             "Looks like you haven't added any accounts yet!"
@@ -23,7 +24,7 @@
           <!-- Accounts Card -->
           @for (item of accountData; track $index) {
           <ion-col class="justify-content-center" sizeMd="4" size="6">
-            <ion-card class="acc-card w-100 align-middle" (click)="addAccount()">
+            <ion-card class="acc-card w-100 align-middle" (click)="openAccount()">
               <ion-card-content class="justify-content-center p-12 fs-20">
                 <ion-grid class="m-0 p-0">
                   <ion-row>
@@ -33,12 +34,13 @@
                   </ion-row>
                   <ion-row>
                     <ion-col class="justify-content-center p-0">
-                      <ion-label class="title-label text-center" color="dark">{{item?.account_name}}</ion-label>
+                      <ion-label class="title-label text-center" color="dark">{{item?.account_name |
+                        titlecase}}</ion-label>
                     </ion-col>
                   </ion-row>
                   <ion-row>
                     <ion-col class="justify-content-center p-0">
-                      <ion-label class="title-label">{{item?.balance | currency:'RM '}}</ion-label>
+                      <ion-label class="title-label">{{item?.account_balance | currency:'RM '}}</ion-label>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -70,4 +72,121 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+
+  <div class="sticky-segment">
+    <ion-segment value="first">
+      <ion-segment-button value="first" content-id="Expenses & Transaction">
+        <ion-label>Expenses</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="second" content-id="Budget & Goals">
+        <ion-label>Budget & Goals</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+
+  <ion-segment-view style="height: 72%;">
+    <ion-segment-content id="Expenses & Transaction">
+      <ion-grid class="h-100 align-contents-center">
+        <ion-row>
+
+          <!-- Chart Monthly Payment -->
+          <ion-col size="12" sizeMd="6">
+            <div class="mx-14 my-18">
+              <ion-card class="m-0 rounded-12">
+                <ion-card-title class="fw-600 title-card center">Monthly Expenses</ion-card-title>
+                <ion-card-content class="p-0" class="d-flex justify-contents-center px-16 pb-7 pt-13">
+
+                  <div style="height: 336px;" class="chart" [ngClass]="transactions.length == 0?'no-transaction':''">
+                    @if (transactions.length == 0) {
+                    <ion-label style="font-style: italic;">No transactions yet</ion-label>
+                    }@else{
+                    <canvas #chartCanvas id="myChart"></canvas>
+                    }
+                  </div>
+
+                </ion-card-content>
+                <div class="mb-6 d-flex justify-contents-end">
+                  <ion-button fill="clear" class="show-more m-0" (click)="showMore(1)">Show More</ion-button>
+                </div>
+              </ion-card>
+            </div>
+          </ion-col>
+
+          <!-- Transactions -->
+          <ion-col size="12" sizeMd="6">
+            <div class="mx-14 my-18">
+              <ion-card class="m-0 rounded-12" style="height: 450px;">
+                <ion-card-title class="fw-600 title-card center">Transactions</ion-card-title>
+                <ion-card-content class="p-0">
+
+                  <div style="height: 350px;" [ngClass]="transactions.length == 0?'no-transaction':''">
+                    <app-transactions-list [transactions]="transactions"></app-transactions-list>
+                    @if (transactions.length == 0) {
+                    <ion-label style="font-style: italic;">No transactions yet</ion-label>
+                    }
+                  </div>
+
+                  <div class="my-6 d-flex justify-contents-end">
+                    <ion-button fill="clear" class="show-more m-0" (click)="showMore(2)">Show More</ion-button>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-segment-content>
+
+    <ion-segment-content id="Budget & Goals">
+      <ion-grid class="h-100 align-contents-center">
+        <ion-row>
+          <ion-col size="12" sizeMd="6">
+            <div class="mx-14 my-18">
+              <ion-card class="m-0 rounded-12" style="height: 450px;">
+                <ion-card-title class="fw-600 title-card center">Transactions</ion-card-title>
+                <ion-card-content class="p-0">
+
+                  <div style="height: 350px;" [ngClass]="transactions.length == 0?'no-transaction':''">
+                    <app-budgets-list></app-budgets-list>
+                    @if (transactions.length == 0) {
+                    <ion-label style="font-style: italic;">No transactions yet</ion-label>
+                    }
+                  </div>
+
+                  <div class="my-6 d-flex justify-contents-end">
+                    <ion-button fill="clear" class="show-more m-0" (click)="showMore(3)">Show More</ion-button>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-col>
+
+          <ion-col size="12" sizeMd="6">
+            <div class="mx-14 my-18">
+              <ion-card class="m-0 rounded-12">
+                <ion-card-title class="fw-600 title-card center">Goals</ion-card-title>
+                <ion-card-content class="p-0" class="d-flex justify-contents-center px-16 pb-7 pt-13">
+
+                  <div style="height: 336px;" class="chart" [ngClass]="transactions.length == 0?'no-transaction':''">
+                    @if (transactions.length == 0) {
+                    <ion-label style="font-style: italic;">No transactions yet</ion-label>
+                    }@else{
+
+                    }
+                  </div>
+
+                </ion-card-content>
+                <div class="mb-6 d-flex justify-contents-end">
+                  <ion-button fill="clear" class="show-more m-0" (click)="showMore(1)">Show More</ion-button>
+                </div>
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-segment-content>
+  </ion-segment-view>
+  <app-fab-button (emitBtnFunc)="onAddTransaction()"></app-fab-button>
 </ion-content>

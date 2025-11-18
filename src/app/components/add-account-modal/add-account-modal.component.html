@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="main">
+    <ion-icon name="add-circle" slot="start" style="font-size: 20px; margin: 0px 0px 0px 18px;"></ion-icon>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-grid class="m-20 p-0">
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="wallet" slot="start"></ion-icon>
+            <ion-label position="stacked">Account Name</ion-label>
+            <ion-input type="text" formControlName="account_name" placeholder="Enter account name">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="albums" slot="start"></ion-icon>
+            <ion-label position="stacked">Account Type</ion-label>
+            <ion-select [value]="selectedType" placeholder="Enter account name"
+              (ionChange)="selectAccountType($event.detail.value)"
+              [interfaceOptions]="{header:'Type',cssClass:'custom-select-modal'}">
+              @for (item of accountTypes; track $index) {
+              <ion-select-option [value]="item.title">{{item.title}}</ion-select-option>
+              }
+            </ion-select>
+            <!-- <ion-input type="text" formControlName="account_type" [readonly]="true" placeholder="Enter account name"
+              id="acc-type">
+              <ion-icon name="caret-down" slot="end"></ion-icon>
+            </ion-input> -->
+
+            <!-- <ion-popover trigger="acc-type" showBackdrop="false" side="bottom" alignment="start">
+              <ng-template>
+                <ion-content class="account-popover">
+                  <ion-list lines="none">
+                    @for (type of accountTypes; track $index) {
+                    <ion-item button (click)="selectAccountType(type)">
+                      {{ type.title }}
+                    </ion-item>
+                    }
+                  </ion-list>
+                </ion-content>
+              </ng-template>
+            </ion-popover> -->
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="cash" slot="start"></ion-icon>
+            <ion-label position="stacked">Initial Amount</ion-label>
+            <div class="d-flex" style="align-items: center;width: 100%;">
+              <span style="margin-right: 12px;">RM</span>
+              <ion-input type="number" formControlName="account_balance" placeholder="Enter amount"></ion-input>
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="bg-main">
+    <ion-buttons slot="end" class="mr-18">
+      <ion-button fill="clear" (click)="dismiss(true)">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Add Account
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

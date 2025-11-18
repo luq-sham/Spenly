@@ -1,0 +1,45 @@
+.budgets-items {
+  padding: 8px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  transition: background 0.1s ease-in-out;
+  width: 100%;
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(196, 196, 196);
+  }
+
+  .icon-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon-wrapper {
+      background-color: var(--ion-color-bg-main);
+      border: 1px solid var(--ion-color-main);
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      ion-icon {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .budget-details {
+    .budget-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .budget-percent {
+      font-weight: 600;
+      color: var(--ion-color-main)
+    }
+  }
+}

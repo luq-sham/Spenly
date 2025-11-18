@@ -1,0 +1,65 @@
+.img {
+  width: 5vw;
+  margin: 12px;
+
+  @media (max-width: 700px) {
+    width: 25vw;
+  }
+}
+
+.main-content {
+  height: 100vh;
+  overflow: auto;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 86px;
+  height: 86px;
+}
+
+.welcome-box {
+  background: var(--ion-color-main-tint);
+  padding: 10px 16px;
+  border-radius: 12px;
+}
+
+.welcome-text {
+  color: #fff;
+  font-size: 15px;
+  font-family: 'rubik';
+  text-align: center;
+}
+
+.list-items {
+  --background: var(--ion-color-main);
+  --color: #fff;
+  margin: 2px 12px 2px 0;
+  font-weight: 500;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: all 0.25s ease;
+
+  &.danger {
+    border-radius: 0;
+    margin: 0;
+    --background: var(--ion-color-danger);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+  }
+
+  &.active-item {
+    --background: var(--ion-color-main-tint);
+    border-left: 4px solid #fff;
+    font-weight: 600;
+  }
+}

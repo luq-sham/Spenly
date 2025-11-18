@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="main">
+    <ion-icon name="stats-chart" slot="start" style="font-size: 20px; margin: 0px 0px 0px 18px;"></ion-icon>
+    <ion-title>Add Transactions</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-segment formControlName="transaction_type" (ionChange)="onChangeSegment($event)">
+      <ion-segment-button value="expense">
+        <ion-label>Expenses</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="income">
+        <ion-label>Income</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-grid class="m-20 p-0">
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="cash" slot="start"></ion-icon>
+            <ion-label position="stacked">Amount</ion-label>
+            <div class="d-flex" style="align-items: center;width: 100%;">
+              <span style="margin-right: 12px; font-size: 16px;">RM</span>
+              <ion-input type="number" formControlName="amount" placeholder="Enter amount"></ion-input>
+            </div>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12" sizeMd="6">
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="grid" slot="start"></ion-icon>
+            <ion-label position="stacked">Category</ion-label>
+            <ion-select formControlName="transaction_category" placeholder="Select Category"
+              (ionChange)="selectAccountCategory($event.detail.value)"
+              [interfaceOptions]="{header:'Categories',cssClass:'custom-select-modal'}">
+              @for (item of transactionCategory; track $index) {
+              <ion-select-option [value]="item.title">{{item.title}}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" sizeMd="6">
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="file-tray-stacked" slot="start"></ion-icon>
+            <ion-label position="stacked">Account</ion-label>
+            <ion-select formControlName="transaction_account" placeholder="Select Account"
+              (ionChange)="selectAccountCategory($event.detail.value)"
+              [interfaceOptions]="{header:'Accounts',cssClass:'custom-select-modal'}">
+              @for (item of transactionAccount; track $index) {
+              <ion-select-option [value]="item.title">{{item.title}}</ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="receipt" slot="start"></ion-icon>
+            <ion-label position="stacked">Description <span style="font-weight: normal;">(Optional)</span></ion-label>
+            <ion-textarea rows="5" formControlName="transaction_note" placeholder="Enter Description">
+            </ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="input-item rounded-10">
+            <ion-icon name="calendar" slot="start"></ion-icon>
+            <ion-label position="stacked">Date</ion-label>
+            <ion-input type="text" [value]="form.get('date')?.value | date:'dd/MM/yyyy'" readonly="true"
+              id="datepicker">
+            </ion-input>
+
+            <ion-popover #popover trigger="datepicker" showBackdrop="false">
+              <ng-template>
+                <ion-datetime [value]="form.get('date')?.value" presentation="date"
+                  (ionChange)="onChangeDate($event.detail.value, popover)">
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="bg-main">
+    <ion-buttons slot="end" class="mr-18">
+      <ion-button fill="clear" (click)="dismiss(true)">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Add Transaction
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

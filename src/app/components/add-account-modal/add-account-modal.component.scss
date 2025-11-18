@@ -1,0 +1,25 @@
+.input-item {
+  align-items: center;
+  margin-top: 0px;
+  --background: #ffffff;
+
+  ion-icon {
+    margin-top: 12px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.account-popover {
+  width: 300px;
+
+  /* matches input width automatically */
+  ion-item {
+    --background: transparent;
+    border-radius: 8px;
+    transition: 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}

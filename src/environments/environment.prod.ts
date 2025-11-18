@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  apiUrl: 'https://spenly-api.vercel.app/',
+  production: true,
 };
